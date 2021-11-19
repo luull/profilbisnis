@@ -1,0 +1,85 @@
+.brand-title img {
+  margin-left: -25px;
+  margin-top: -8px;
+  width: 220px;
+}
+.brand-logo {
+  background: #fff !important;
+}
+.header,
+.nav-header {
+  background: #aaa !important;
+  color: #fff !important;
+}
+
+.nav-control i {
+  color: #fff !important;
+}
+
+.nk-sidebar,
+.metismenu li {
+  background: #aaa !important;
+  color: #fff !important;
+  border-bottom: 1px solid #a0a0a0;
+}
+.metismenu li a:hover {
+  background: #999 !important;
+  color: #fff !important;
+}
+
+.metismenu .active {
+  background: #999 !important;
+  color: #fff !important;
+}
+
+.metismenu li a,
+.metismenu li i {
+  color: #fff !important;
+}
+
+.content-body,
+#main-wrapper {
+  background: #eee;
+}
+.page-titles {
+  background: #ddd !important;
+}
+.footer,
+.copyright {
+  background: #aaa !important;
+
+  color: #fff !important;
+}
+.breadcrumb-item,
+.breadcrumb-item active {
+  background: transparent;
+  border: 0;
+  color: #fff !important;
+}
+.copyright p,
+.copyright a {
+  color: #fff !important;
+}
+
+a:hover {
+  color: #333 !important;
+}
+.has-arrrow {
+  background: rgb(201, 41, 179) !important;
+  color: #fff !important;
+}
+
+.btn-info {
+  background: #333 !important;
+  border: 1px solid #555 !important;
+}
+.btn-info:hover {
+  background: #999 !important;
+  border: 1px solid #aaa !important;
+  color: #fff !important;
+}
+
+.nk-sidebar,
+.metismenu {
+  background: linear-gradient(#333, #aaa) !important;
+}
