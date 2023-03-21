@@ -21,7 +21,7 @@
             </ul>
         </li>
         <li><a class="nav-link {{ Request::is('kontak') ? 'active' : '' }}" href="/kontak">Kontak</a></li>
-        <li><a class="nav-link scrollto" href="#join">Daftar</a></li>
+        <li><a class="nav-link scrollto" href="/{{ session('data')->username }}#join">Daftar</a></li>
           {{-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> --}}
           <li><a class="getstarted" href="{{env('APP_URL')}}/kartunama/{{session('username')}}" rel="nofollow" target="_blank">Kartu Nama</a></li>
         </ul>

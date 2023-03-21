@@ -6,42 +6,42 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                      <h5 class="text-center">Selamat Datang {{ $backend_data->nama }}</h5>
+                      <h5 class="text-center">Selamat Datang {{ $data->nama }}</h5>
                       <p class="text-center">Berikut Profil Anda : </p>
                       <hr/>
                       <div class="row">
                       <div class="col-md-3 col-lg-3">
-                      <img src="{{ asset($backend_data->foto)}}" class="img-thumbnail  shadow rounded-circle align-top " style="max-height:200px"><br>
+                      <img src="{{ asset($data->foto)}}" class="img-thumbnail  shadow rounded-circle align-top " style="max-height:200px"><br>
                       </div>
                       <div class="col-md-9 col-lg-9">
-                      @if (!@empty($backend_data->nama))
+                      @if (!@empty($data->nama))
                         <div class="row p-2" >
                         <div class="col-4 text-left">Nama</div>
-                        <div class="col-8 text-left">: {{$backend_data->nama}} </div>
+                        <div class="col-8 text-left">: {{$data->nama}} </div>
                         </div>
                         @endif
-                        @if (!@empty($backend_data->email))
+                        @if (!@empty($data->email))
                         <div class="row p-2" >
                         <div class="col-4 text-left">Email</div>
-                        <div class="col-8 text-left">: {{$backend_data->email}} </div>
+                        <div class="col-8 text-left">: {{$data->email}} </div>
                         </div>
                         @endif
-                        @if (!@empty($backend_data->telp))
+                        @if (!@empty($data->telp))
                         <div class="row p-2" >
                         <div class="col-4 text-left">No HP  </div>
-                        <div class="col-8 text-left">: {{$backend_data->telp}} </div>
+                        <div class="col-8 text-left">: {{$data->telp}} </div>
                         </div>
                         @endif
-                        @if (!@empty($backend_data->level_akses->nama))
+                        @if (!@empty($data->level_akses->nama))
                         <div class="row p-2" >
                         <div class="col-4 text-left">Hak Akses</div>
-                        <div class="col-8 text-left">: {{$backend_data->level_akses->nama}} </div>
+                        <div class="col-8 text-left">: {{$data->level_akses->nama}} </div>
                         </div>
                         @endif
-                        @if (!@empty($backend_data->last_login))
+                        @if (!@empty($data->last_login))
                         <div class="row p-2" >
                         <div class="col-4 text-left">Login Terakhir </div>
-                        <div class="col-8 text-left">: {{$backend_data->last_login}}</div>
+                        <div class="col-8 text-left">: {{$data->last_login}}</div>
                         </div>
                         @endif
                         </div>

@@ -131,9 +131,11 @@
           <div class="post-box">
             <div class="post-img"><img src="{{ asset($item->foto) }}" style="height: 500px !important" alt=""></div>
             <span class="post-date">Rp.{{ number_format($item->harga) }}</span>
-            <h3 class="post-title">{{ $item->nama_brg }}</h3>
-            <div style="height: 120px;">
-                <p>{!! Str::limit($item->keterangan_singkat, 130, '...') !!}</p>
+            <div style="height: 50px;display: flex;align-items: center;">
+                <h3 class="post-title">{{ $item->nama_brg }}</h3>
+            </div>
+            <div style="height: 130px;">
+                <p>{!! Str::limit($item->keterangan_singkat, 120, '...') !!}</p>
             </div>
             <a href="/produk1/{{ session('data')->username }}/{{$item->slug}}" class="readmore stretched-link mt-auto"><span>Detil Produk</span><i class="bi bi-arrow-right"></i></a>
           </div>
@@ -148,7 +150,7 @@
 
   </section>
   @endif
-  <section id="features" class="features" style="background: #f6f9ff !important;padding-top:0px !important">
+  <section id="join" class="features" style="background: #f6f9ff !important;padding-top:0px !important">
 
     <div class="container" data-aos="fade-up">
 
