@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\KategoriPekerjaan;
 use Illuminate\Http\Request;
 use App\Member;
+use App\Kartu_nama;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\SubKategoriPekerjaan;
-
 class profilController extends Controller
 {
     public function index()
@@ -21,8 +22,9 @@ class profilController extends Controller
         save_page_traffic_member($a_data);
         $theme = session('themes');
         $profil = session('data');
+        $qr = QrCode::size(200)->generate(env('APP_URL') . '/kartunama/' . session('username'));
         $view = "templates.$theme.profile";
-        return view($view, compact('profil'));
+        return view($view, compact('profil','qr'));
     }
     public function show_admin()
     {
