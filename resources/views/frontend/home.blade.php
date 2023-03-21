@@ -25,7 +25,7 @@
                                         <div class="form-group">
                                             <div class="input-group w-100">
 
-                                                <input type="text" class="form-control" placeholder="Pencarian Profil Mitra " name="s">
+                                                <input type="text" class="form-control" placeholder="Pencarian Profil Mitra " name="s" required>
                                                 &nbsp;
                                                 <div class="input-group-append ">
                                                     <span class="input-group-text p-0 m-0">
@@ -60,13 +60,15 @@
         @foreach ($member_spesial as $item)
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                <div class="advisor_thumb"><img src="{{asset($item->foto)}}" alt="">
+                <div class="advisor_thumb" ><a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><img src="{{asset($item->foto)}}" alt="" style="min-height:280px;max-height:320px;background-size:cover"></a>
                     <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa fa-youtube"></i></a></div>
                 </div>
-                <div class="single_advisor_details_info">
-                    <p style="float: left !important;margin-top:-10px;">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>
-                    <h6> <a href="{{env('APP_URL')}}/{{$item->username}}">{{$item->nama}}</a></h6>
-                    <p class="designation mb-2"><a href="/findmember/kategori-pekerjaan/{{$item->KategoriPekerjaan->nama}}">{{$item->KategoriPekerjaan->nama}}</a></p>
+                <div class="single_advisor_details_info mb-5" style="padding-left:15px">
+                    <p style="float: left !important;" class="mx-1">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>
+                    <div style="height:80px;overflow:hidden;align-items:center;align-content:center">
+                        <h6> <a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><b>{{$item->nama}}</b></a></h6>
+                        <p class="designation mb-2"><a href="/findmember/kategori-pekerjaan/{{$item->KategoriPekerjaan->nama}}">{{$item->KategoriPekerjaan->nama}}</a></p>
+                    </div>
                     <br>
                     <p style="text-align: left;"><i class="fa fa-map-pin mr-3"></i> &nbsp; <a href="/findmember/kota/{{$item->city->type}}-{{$item->city->city_name}}">{{$item->city->type}}-{{$item->city->city_name}} </a></p>
                     <p style="text-align: left;"> <i class="fa fa-map-marker mr-3"></i> &nbsp; <a href="/findmember/propinsi/{{$item->province->province}}">{{$item->province->province}}</a></p>
@@ -81,13 +83,15 @@
         @foreach ($member_reguler as $item)
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                <div class="advisor_thumb"><img src="{{asset($item->foto)}}" alt="">
+                <div class="advisor_thumb"><a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><img src="{{asset($item->foto)}}" alt="" style="min-height:280px;max-height:320px;background-size:cover"></a>
                     <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa fa-youtube"></i></a></div>
                 </div>
-                <div class="single_advisor_details_info mb-5">
-                    <p style="float: left !important;margin-top:-10px;">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>
-                    <h6> <a href="{{env('APP_URL')}}/{{$item->username}}">{{$item->nama}}</a></h6>
-                    <p class="designation mb-2"><a href="/findmember/kategori-pekerjaan/{{$item->KategoriPekerjaan->nama}}">{{$item->KategoriPekerjaan->nama}}</a></p>
+                <div class="single_advisor_details_info mb-5" style="padding-left:15px">
+                    <p style="float: left !important;" class="mx-1">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>
+                    <div style="height:80px;overflow:hidden;align-items:center;align-content:center">
+                        <h6> <a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><b>{{$item->nama}}</b></a></h6>
+                        <p class="designation mb-2"><a href="/findmember/kategori-pekerjaan/{{$item->KategoriPekerjaan->nama}}">{{$item->KategoriPekerjaan->nama}}</a></p>
+                    </div>
                     <br>
                     <p style="text-align: left;"><i class="fa fa-map-pin mr-3"></i> &nbsp; <a href="/findmember/kota/{{$item->city->type}}-{{$item->city->city_name}}">{{$item->city->type}}-{{$item->city->city_name}} </a></p>
                     <p style="text-align: left;"> <i class="fa fa-map-marker mr-3"></i> &nbsp; <a href="/findmember/propinsi/{{$item->province->province}}">{{$item->province->province}}</a></p>

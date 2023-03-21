@@ -1,4 +1,4 @@
-@extends('templates.frontend.master')
+@extends('frontend.master')
 @section('content')
 <section class="product-list section-bg">
     <div class="container" data-aos="fade-up">

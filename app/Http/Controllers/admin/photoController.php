@@ -70,8 +70,8 @@ class photoController extends Controller
                     $fileName = pathinfo($originName, PATHINFO_FILENAME);
                     $extension = $file->getClientOriginalExtension();
                     $name = $fileName . '.' . $extension;
-                    $file->move(public_path() . '/' . session('admin_member_id') . '/photos/', $name);
-                    $photo = session('admin_member_id') . "/photos/$name";
+                    $file->move(public_path() . '/member-assets' . session('admin_member_id') . '/photos/', $name);
+                    $photo = "member-assets/". session('admin_member_id') . "/photos/$name";
                 } else {
                     $photo = $request->foto_exist;
                 }
@@ -118,8 +118,8 @@ class photoController extends Controller
                 $fileName = pathinfo($originName, PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
                 $name = $fileName . '.' . $extension;
-                $file->move(public_path() . '/' . session('admin_member_id') . '/photos/', $name);
-                $photo = session('admin_member_id') . "/photos/$name";
+                $file->move(public_path() . '/member-assets' . session('admin_member_id') . '/photos/', $name);
+                $photo = "member-assets/". session('admin_member_id') . "/photos/$name";
             }
             $hsl = Gallery_photo::create([
                 'member_id' => session('admin_member_id'),

@@ -65,22 +65,11 @@ class bannerController extends Controller
                     $fileName = pathinfo($originName, PATHINFO_FILENAME);
                     $extension = $file->getClientOriginalExtension();
                     $name = $fileName . '.' . $extension;
-                    $file->move(public_path() . '/' . session('admin_member_id') . '/images/', $name);
-                    $gambar = session('admin_member_id') . "/images/$name";
+                    $file->move(public_path() . '/member-assets' . session('admin_member_id') . '/photos/', $name);
+                    $gambar = "member-assets/". session('admin_member_id') . "/photos/$name";
                 } else {
                     $gambar = $request->gambar1;
                 }
-                /*if ($request->hasfile('background')) {
-                    $file = $request->file('background');
-                    $originName = $file->getClientOriginalName();
-                    $fileName = pathinfo($originName, PATHINFO_FILENAME);
-                    $extension = $file->getClientOriginalExtension();
-                    $name = $fileName . '.' . $extension;
-                    $file->move(public_path() . '/' . session('admin_member_id') . '/images/', $name);
-                    $background = session('admin_member_id') . "/images/$name";
-                } else {
-                    $background = $request->background1;
-                }*/
                 $hsl = Banner::find($request->id)->update([
                     'member_id' => session('admin_member_id'),
                     'judul' => $request->judul,
@@ -128,18 +117,9 @@ class bannerController extends Controller
                 $fileName = pathinfo($originName, PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
                 $name = $fileName . '.' . $extension;
-                $file->move(public_path() . '/' . session('admin_member_id') . '/images/', $name);
-                $gambar = session('admin_member_id') . "/images/$name";
+                $file->move(public_path() . '/member-assets' . session('admin_member_id') . '/photos/', $name);
+                $gambar = "member-assets/". session('admin_member_id') . "/photos/$name";
             }
-            /*if ($request->hasfile('background')) {
-                $file = $request->file('background');
-                $originName = $file->getClientOriginalName();
-                $fileName = pathinfo($originName, PATHINFO_FILENAME);
-                $extension = $file->getClientOriginalExtension();
-                $name = $fileName . '.' . $extension;
-                $file->move(public_path() . '/' . session('admin_member_id') . '/images/', $name);
-                $background = session('admin_member_id') . "/images/$name";
-            }*/
 
             $hsl = Banner::create([
                 'member_id' => session('admin_member_id'),
