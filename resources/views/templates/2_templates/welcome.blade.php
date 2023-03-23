@@ -83,10 +83,10 @@
       <div class="row justify-content-center">
         <div class="row-box">
         @foreach ($bisnis_default as $bs)
-        <div class="col-lg-4">
+        <div class="col-lg-4 mx-2">
           <a href="/bisnis1/{{$bs->slug}}">
           <div class="box" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset($bs->logo)}}" class="img-fluid" style="width:150px;height:auto;">
+            <img src="{{ !empty($bs->logo) ? asset($bs->logo) : asset('images/no-image.jpg')}}" class="img-fluid" style="width:150px;height:auto;">
       
             <h4>{{ $bs->nama }}</h4>
             <p>{!! Str::limit($bs->keterangan_singkat, 100,'...') !!}</p>
@@ -96,10 +96,10 @@
         @endforeach
         @if(session('level')>0)
         @foreach ($bisnis as $bs)
-        <div class="col-lg-4">
+        <div class="col-lg-4 mx-2">
         <a href="/bisnis/{{$bs->slug}}">
           <div class="box" data-aos="zoom-in" data-aos-delay="100">
-            <img src="{{ asset($bs->logo)}}" class="img-fluid" style="width:150px;height:auto;">
+            <img src="{{ !empty($bs->logo) ? asset($bs->logo) : asset('images/no-image.jpg')}}" class="img-fluid" style="width:150px;height:auto;">
       
             <h4>{{ $bs->nama }}</h4>
             <p>{!! Str::limit($bs->keterangan_singkat, 100,'...') !!}</p>
@@ -141,6 +141,9 @@
               </div>
               @endforeach
             </div>
+            <div class="text-center mt-5">
+              <a class="text-center" href="/produk">Lihat Selengkapnya <i class="fa fa-long-arrow-right"></i> </a>
+          </div>
         </div>
   </section>
   @endif
