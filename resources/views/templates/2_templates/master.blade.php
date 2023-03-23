@@ -14,15 +14,13 @@
   <link rel="shortcut icon" href="{{ asset('favicon.png')}}" type="image/x-generic">
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Global Assets -->
   @include('templates.global.vendorcss-bootstapmade')
 
   <!-- Main Stylesheet -->
-  <link href="{{ asset('templates/2_templates/css/main.css')}}" rel="stylesheet">
+  <link href="{{ asset('templates/2_templates/css/style.css')}}" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('templates/global/font-awesome/font-awesome.min.css')}}">

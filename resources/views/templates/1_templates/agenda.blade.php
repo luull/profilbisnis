@@ -33,7 +33,7 @@
                 </div>
                 <div style="height: 100px;display: flex;align-items: center;">
                 <h2 class="entry-title">
-                <a href> {{$dt->acara}}</a>
+                <a href="/agenda1/{{$dt->slug}}"> {{$dt->acara}}</a>
                 </h2>
                 </div>
                 <hr>
@@ -73,7 +73,7 @@
                 </div>
                 <div style="height: 100px;display: flex;align-items: center;">
                 <h2 class="entry-title">
-                <a href> {{$dt->acara}}</a>
+                <a href="/agenda/{{$dt->slug}}"> {{$dt->acara}}</a>
                 </h2>
                 </div>
                 <hr>

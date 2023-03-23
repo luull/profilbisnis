@@ -1,15 +1,17 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Testimoni</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         {{-- <li><a href="/profil">Profil</a></li> --}}
+        <li><a href="/produk">Produk</a></li>
         <li>Testimoni</li>
       </ol>
-      <h2>Testimoni</h2>
 
+    </div>
     </div>
   </section>
 @stop
@@ -32,9 +34,11 @@
              
             </div>
             <div class="member-info">
+              <br>
               <h4>{{$item->judul}}</h4>
-              <span>{{$item->alamat}}</span>
-              <p style="font-style: normal;">{{$item->nama}}</p>
+              <hr>
+              <p class="mb-0" style="font-style: normal;color:white">{{$item->nama}}</p>
+              <small class="text-muted">{{$item->alamat}}</small>
             </div>
           </div>
         </div>
@@ -53,9 +57,11 @@
              
             </div>
             <div class="member-info">
+              <br>
               <h4>{{$item->judul}}</h4>
-              <span>{{$item->nama}}</span>
-              <p>{{$item->alamat}}</p>
+              <hr>
+              <p class="mb-0" style="font-style: normal;color:white">{{$item->nama}}</p>
+              <small class="text-muted">{{$item->alamat}}</small>
             </div>
           </div>
         </div>

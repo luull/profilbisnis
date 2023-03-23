@@ -1,15 +1,16 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Profil</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         {{-- <li><a href="/profil">Profil</a></li> --}}
         <li>Profil</li>
       </ol>
-      <h2>Profil</h2>
 
+    </div>
     </div>
   </section>
 @stop
@@ -23,7 +24,7 @@
                 <div class="text-center">
                     {!!$qr!!}
                     <hr>
-                    <h4 class="mb-0"><b>SCAN QRCODE</b></h4>
+                    <h4 class="mb-0" style="color:#cda45e"><b>SCAN QRCODE</b></h4>
                     <p>KARTU NAMA</p>
                   
                 </div>
@@ -41,7 +42,7 @@
                 @endif
             </div>
         
-            <h2 class="entry-title mb-0">
+            <h2 class="entry-title mb-0 mt-2">
                 {{ !empty($profil->nama) ? $profil->nama : '-'}} 
             </h2>
             <p class="text-muted"> {{ !empty($profil->jabatan) ? $profil->jabatan : ''}} - ({{ !empty($profil->pekerjaan) ? $profil->pekerjaan : ''}}) 

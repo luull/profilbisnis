@@ -1,15 +1,15 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Detil Bisnis</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         <li><a href="/bisnis">Bisnis</a></li>
         <li>Detil Bisnis</li>
       </ol>
-      <h2>Detil Bisnis</h2>
-
+    </div>
     </div>
   </section>
 @stop
@@ -27,7 +27,7 @@
                 </div>
             </article>
             @if(!empty($count_produk))
-            <a href="{{ env('APP_URL') }}/{{$link}}/produk/{{ $bisnis->slug }}" class="btn btn-primary" style="width:100%;margin-top:-50px;"> <i class="bi bi-bag-fill"></i> Daftar Produk</a>
+            <a href="{{ env('APP_URL') }}/{{$link}}/produk/{{ $bisnis->slug }}" class="btn btn-main" style="width:100%;"> <i class="bi bi-bag-fill"></i> Daftar Produk</a>
             @endif
         </div>
         <div class="col-lg-8 entries">

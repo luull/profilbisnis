@@ -1,14 +1,15 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Not Found</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         <li>Not Found</li>
       </ol>
-      <h2>Not Found</h2>
 
+    </div>
     </div>
   </section>
 @stop
@@ -17,7 +18,7 @@
     <div class="col-md-12">
         <div class="text-center">
             <img src="{{ asset('images/404.jpg') }}" class="img-fluid" style="width: 400px;" />
-            <h4 style="color:#3a74a7;">{{$message}} </h4>
+            <h4 style="color:#cda45e;">{{$message}} </h4>
         </div>
     </div>
 </div>

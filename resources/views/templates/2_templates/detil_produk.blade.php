@@ -1,4 +1,4 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('meta')
 <meta property="og:title" content="{{ $produk->nama_brg }}" />
 <meta property="og:image" content="{{ (@file_exists(public_path($produk->foto))) ? asset($produk->foto) : asset('images/no-product.svg') }}" />
@@ -8,14 +8,15 @@
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Detil Produk</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         <li><a href="/produk">Produk</a></li>
         <li>Detil Produk</li>
       </ol>
-      <h2>Detil Produk</h2>
 
+    </div>
     </div>
   </section>
 @stop
@@ -33,7 +34,7 @@
                 </div>
             </article>
      
-            <a href="https://wa.me/{{ $no_wa }}?text={{ $wa_template }} <?PHP echo  str_replace(" ", "%20", $produk->nama_brg); ?>" target="_blank"class="btn btn-primary" style="width:100%;margin-top:-50px;"> <i class="bi bi-cart-plus"></i> Beli</a>
+            <a href="https://wa.me/{{ $no_wa }}?text={{ $wa_template }} <?PHP echo  str_replace(" ", "%20", $produk->nama_brg); ?>" target="_blank"class="btn btn-main" style="width:100%;"> <i class="bi bi-cart-plus"></i> Beli</a>
         
         </div>
         <div class="col-lg-8 entries">
@@ -48,8 +49,9 @@
                 {!! $produk->keterangan !!}
               </p>
             </div>
+            <hr>
             @if(!empty($testimoni))
-                <a href="{{ env('APP_URL') }}/testimoni/{{$produk->slug}}" class="readmore mt-auto"><span> <i class="bi bi-quote"></i> Testimoni</span><i class="bi bi-arrow-right"></i></a>
+                <a href="{{ env('APP_URL') }}/testimoni/{{$produk->slug}}" class="btn btn-outline-main mt-auto"><span> <i class="bi bi-quote"></i> Testimoni</span></a>
             @endif
           </article>
         </div>

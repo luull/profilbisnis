@@ -1,4 +1,4 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('meta')
 @foreach ($data as $item)
 <meta property="og:title" content="{{$item->judul}}" />
@@ -10,14 +10,15 @@
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Detil Testimoni</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         <li><a href="/testimoni/{{ Str::slug($item->nama_brg)}}">Testimoni</a></li>
         <li>Detil Testimoni</li>
       </ol>
-      <h2>Detil Testimoni</h2>
 
+    </div>
     </div>
   </section>
 @stop

@@ -6,8 +6,8 @@
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
           <h1 data-aos="fade-up">{!! !empty($bn->judul) ? $bn->judul : 'Lorem Ipsum' !!}</h1>
-          <h2 data-aos="fade-up" data-aos-delay="400">{!! !empty($bn->judul) ? $bn->sub_judul1 : 'Lorem Ipsum' !!}</h2>
-          <small data-aos="fade-up" data-aos-delay="400">{!! !empty($bn->judul) ? $bn->sub_judul2 : 'Lorem Ipsum' !!}</small>
+          <h2 data-aos="fade-up" data-aos-delay="400">{!! !empty($bn->sub_judul1) ? $bn->sub_judul1 : 'Lorem Ipsum' !!}</h2>
+          <small data-aos="fade-up" data-aos-delay="400">{!! !empty($bn->sub_judul2) ? $bn->sub_judul2 : 'Lorem Ipsum' !!}</small>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               <a href="{{$bn->link}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">

@@ -4,11 +4,8 @@
     <div class="footer-top">
       <div class="container">
         <div class="row gy-4">
-          <div class="col-lg-5 col-md-12 footer-info">
-            <a href="index.html" class="logo d-flex align-items-center">
-              <img src="{{ asset('logo/emblem.png')}}" alt="">
-              <span> {{session('konfigurasi')->app_name}}</span>
-            </a>
+          <div class="col-lg-6 col-md-12 footer-info">
+            <h3> <img src="{{ asset('logo/emblem2.png')}}" style="height: 80px;" alt=""> {{session('konfigurasi')->app_name}}</h3>
             <p>{{session('data')->tentang_web}}</p>
             <br>
             {!!session('qrcode')!!}
@@ -22,7 +19,7 @@
             </div>
           </div>
 
-          <div class="col-lg-3 col-6 footer-links">
+          <div class="col-lg-3 col-6 mt-5 footer-links">
             <h4>Layanan</h4>
             <ul>
               <li><i class="bi bi-chevron-right"></i> <a href="/profil"> Profil</a></li>
@@ -34,7 +31,7 @@
           </div>
 
   
-          <div class="col-lg-4 col-md-12 footer-contact text-center text-md-start">
+          <div class="col-lg-3 col-md-12 mt-5 footer-contact text-center text-md-start">
             <h4>Kontak Kami</h4>
             <p>
               {{session('data')->city->city_name.' '.session('data')->city->type}} - {{session('data')->province->province}} <br><br>

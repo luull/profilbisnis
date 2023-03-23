@@ -1,14 +1,14 @@
-@extends('templates.1_templates.master')
+@extends('templates.2_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
-
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Detil Agenda</h2>
       <ol>
         <li><a href="/{{ session('data')->username }}">Home</a></li>
         <li><a href="/agenda">Agenda</a></li>
         <li>Detil Agenda</li>
       </ol>
-      <h2>Detil Agenda</h2>
 
     </div>
   </section>
