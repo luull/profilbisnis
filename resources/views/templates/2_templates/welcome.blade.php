@@ -72,7 +72,7 @@
   </div>
 </section>
   @if (count($bisnis_default)>=1 or count($bisnis)>=1 )
-  <section id="why-us" class="why-us">
+  <section id="bisnis" class="why-us">
     <div class="container" data-aos="fade-up">
 
       <div class="section-title">
