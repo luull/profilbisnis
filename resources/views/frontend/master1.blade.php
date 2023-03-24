@@ -11,8 +11,8 @@
 	<title>@yield('title')</title>
     
 	<!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 	<!-- Stylesheet -->
     <link href="{{asset('frontend/vendor/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet">
 	<link href="{{asset('frontend/vendor/owl-carousel/owl.carousel.css')}}" rel="stylesheet">

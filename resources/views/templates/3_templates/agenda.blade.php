@@ -1,4 +1,4 @@
-@extends('templates.2_templates.master')
+@extends('templates.3_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">

@@ -1,5 +1,7 @@
 @extends('frontend.master')
-
+@section('title')
+Profil Member
+@endsection
 @section('content')
 
 <div class="faq container">

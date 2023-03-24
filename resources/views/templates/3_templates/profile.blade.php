@@ -1,4 +1,4 @@
-@extends('templates.2_templates.master')
+@extends('templates.3_templates.master')
 @section('hero')
 <section class="breadcrumbs">
     <div class="container">
@@ -24,7 +24,7 @@
                 <div class="text-center">
                     {!!$qr!!}
                     <hr>
-                    <h4 class="mb-0" style="color:#cda45e"><b>SCAN QRCODE</b></h4>
+                    <h4 class="mb-0" style="color:#5846f9"><b>SCAN QRCODE</b></h4>
                     <p>KARTU NAMA</p>
                   
                 </div>
@@ -48,6 +48,7 @@
             <p class="text-muted"> {{ !empty($profil->jabatan) ? $profil->jabatan : ''}} - ({{ !empty($profil->pekerjaan) ? $profil->pekerjaan : ''}}) 
             </p>
         
+
             <div class="entry-meta">
               <ul class="mb-3">
                 <li class="d-flex align-items-center"><i class="bi bi-building"></i> <a href="">{{ !empty($profil->perusahaan) ? $profil->perusahaan : '-'}}</a></li>
@@ -70,7 +71,7 @@
                     "{{ !empty($profil->moto) ? $profil->moto : '-'}}"
                 </p>
               </blockquote>
-              <hr>
+<hr>
               <div class="entry-meta">
                 <ul class="mb-2">
                   <li class="d-flex align-items-center"><i class="bi bi-facebook"></i> <a href="">{{!empty($profil->fb) ? $profil->fb  : "-"}}</a></li>
@@ -80,7 +81,7 @@
                 <ul>
                   <li class="d-flex align-items-center"><i class="bi bi-youtube"></i> <a href="">{{!empty($profil->tube) ? $profil->tube  : "-"}}</a></li>
               </ul>
-              </div>
+            </div>
             </div>
           </article>
         </div>

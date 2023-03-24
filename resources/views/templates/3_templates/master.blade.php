@@ -13,13 +13,13 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
   <!-- Global Assets -->
   @include('templates.global.vendorcss-bootstapmade')
 
   <!-- Main Stylesheet -->
-  <link href="{{ asset('templates/2_templates/css/style.css')}}" rel="stylesheet">
+  <link href="{{ asset('templates/3_templates/css/style.css')}}" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('templates/global/font-awesome/font-awesome.min.css')}}">
@@ -27,12 +27,12 @@
 
 <body>
 
-  @include('templates.2_templates.header')
+  @include('templates.3_templates.header')
   @yield('hero')
   <main id="main">
     @yield('content')
     </main>
-    @include('templates.2_templates.footer')
+    @include('templates.3_templates.footer')
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- jQuery -->
@@ -42,7 +42,7 @@
   @include('templates.global.vendorjs-bootstrapmade')
 
   <!-- Main JS -->
-  <script src="{{ asset('templates/2_templates/js/main.js')}}"></script>
+  <script src="{{ asset('templates/3_templates/js/main.js')}}"></script>
 
   <script>
     AOS.init();
