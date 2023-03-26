@@ -30,10 +30,17 @@
       <li><a href="/backend/photo-profile" class="nav-link">Upload Photo Profile</a></li>
       <li><a href="/backend/import" class="nav-link">Import Member</a></li>
       <li><a href="/backend/member" class="nav-link">Daftar Member</a></li>
+      <li><a>Bank Konten</a>
+        <ul>
+          <li><a href="/backend/bank_content">Materi Konten</a></li>
+          <li><a href="/backend/landing">Landing Page</a></li>
+        </ul>
+      </li>
+      <li><a href="/backend/templatesBanner" class="nav-link">Templates Banner</a></li>
       <li><a href="/backend/filemanager" class="nav-link">File Manager</a></li>
       <li><a href="/backend/welcome_note" class="nav-link">Welcome Note</a></li>
       <li><a href="/backend/wa-templates" class="nav-link">Whatasapp Template</a></li>
-      <li><a href="/backend/bank" class="nav-link">Data Bank</a></li>
+      <!--<li><a href="/backend/bank" class="nav-link">Data Bank</a></li>-->
       <li><a href="/backend/kategori-pekerjaan" class="nav-link">Kategori Pekerjaan</a></li>
       <li><a href="/backend/sub-kategori-pekerjaan" class="nav-link">Sub Kategori Pekerjaan</a></li>
       <li><a href="/backend/konfigurasi" class="nav-link">Konfigurasi Website</a></li>

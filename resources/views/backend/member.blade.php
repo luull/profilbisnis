@@ -24,14 +24,17 @@
                             <table class="table rounded table-striped table-bordered" id="mytable">
                               <thead>
                                     <tr>
+                                        <th>Tgl Registrasi</th>
                                         <th>Username</th>
                                         <th>Nama Member</th>
+                                        <th>ID Member</th>
                                         <th>Alamat</th>
                                         <th>No Handphone</th>
                                         <th>Email</th>
                                         <th>Level Member</th>
-                                        <th>Foto Profil</th>
-                                        <th width="150">Action</th>
+                                        <th class="noExport">Foto Profil</th>
+                                        <th>Tgl Aktif</th>
+                                        <th class="noExport" width="200">Action</th>
                                        <!-- <th  >Menu Member</th>-->
                                         
                                     </tr>
@@ -39,8 +42,10 @@
                                 <tbody>
                                     @foreach ($member as $dt)
                                     <tr>
+                                        <td>{{ $dt->tgl_daftar }}</td>
                                         <td>{{ $dt->username }}</td>
                                         <td>{{ $dt->nama }}</td>
+                                        <td>{{ $dt->member_id }}</td>
                                         <td>{{ $dt->city->type }} {{ $dt->city->city_name }}-{{ $dt->province->province }}</td>
                                         <td>{{ $dt->telp }}</td>
                                         <td>{{ $dt->email }}</td>
@@ -52,11 +57,22 @@
                                             @endif
                                         </td>
                                         <td><img src="{{ asset($dt->foto) }}" class="img" id="img-{{$dt->id}}" width="70"></td>
+                                        <td><i class="fa fa-circle" style="color: green"></i><br><?php 
+                                        
+                                        $valid = date('d-m-Y', strtotime($dt->last_login));
+                                        if ($valid == '01-01-1970') {
+                                            echo 'Belum Aktif';
+                                        }else{
+                                            echo $valid;
+                                        }
+                                        ?> 
+                                        </td>
                                         <td > <a href="/backend/member/edit/{{$dt->id}}" alt="Edit"><i class="fa fa-lg fa-edit text-info" title="Edit Data Member "></i></a>
                                             <a href="/backend/member/delete/{{$dt->id}}"  id="e-{{$dt->id}}" Title="Delete Member"><i class="fa fa-lg fa-trash text-danger"></i></a>
                                         <a href="/backend/member/ubah-password/{{$dt->id}}" title="Change Password Member"><i class="fa fa-lg fa-lock text-warning"></i></a> 
                                     <a href="/backend/cpanel/{{$dt->username}}" target="_blank" title="Control Panel Member"><i class="fa fa-lg fa-user text-success"></i></a>
-                                    <a href="/{{$dt->username}}" target="_blank" title="Web Profil Member"><i class="fa fa-lg fa-globe text-purple"></i></a></td>
+                                    <a href="/{{$dt->username}}" target="_blank" title="Web Profil Member"><i class="fa fa-lg fa-globe text-purple"></i></a>
+                                </td>
                                         <!--<td>
                                              <div class="form-group">
                                             <select id="link" class="form-control" name="link">
@@ -172,10 +188,37 @@
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('templates/admin/assets/js/page/datatables.js')}}"></script>
-   
+  {{-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> --}}
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+  <script>
+      $(document).ready(function() {
+        $('#mytable').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: 'Data Member',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }, {
+                    extend: 'csv',
+                    title: 'Data Member',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }
+            ]
+        } );
+    } );
+  </script>
     <script >
         $(document).ready(function(){
-            $("#mytable").DataTable();
          $("#link").click(function(){
              var menu=$(this).val();
 
@@ -211,10 +254,11 @@
         }
     })
         })
-    </script>    
+        </script>    
+        
 @stop
 
 @section('style')
-<link href="{{ asset('templates/admin/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="{{ asset('templates/admin/plugins/tables/css/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     
 @endsection

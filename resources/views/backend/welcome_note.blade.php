@@ -13,6 +13,13 @@
             @endif
             <form method="post" action="{{route('update_welcome_note_backend')}}">
                 @csrf
+                 <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control input-default @error('judul')is-invalid @enderror" name="judul" id="judul" value="{{$judul}}">
+                        @error('judul')
+                        <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                        @enderror
+                    </div>
                 <div class="form-group">
                         <label>Sub Title</label>
                         <input type="text" class="form-control input-default @error('sub_judul')is-invalid @enderror" name="sub_judul" id="sub_judul" value="{{$sub_judul}}">
@@ -20,13 +27,7 @@
                         <div class="text-danger mt-1 font-italic">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control input-default @error('judul')is-invalid @enderror" name="judul" id="judul" value="{{$judul}}">
-                        @error('judul')
-                        <div class="text-danger mt-1 font-italic">{{ $message }}</div>
-                        @enderror
-                    </div>
+                   
                 <div class="form-group">
                     <label>Welcome Note</label>
                     <textarea id="myeditor" name="welcome_note">{!!$wn!!}</textarea>

@@ -5,7 +5,7 @@
         <div class="col-md-6 ">
             
             <div class="card">
-                <form action="{{ route('import_member') }}" method="POST" >
+                <form action="{{ route('preview_import_member') }}" method="POST" >
                     @csrf
                     <div class="card-header justifyle-content-center rounded-top  "  >
                         <h5 class="text-center  mt-3 mb-3 font-weight-bold w-100"> IMPORT MEMBER</h5>

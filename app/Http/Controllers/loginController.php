@@ -182,14 +182,15 @@ class loginController extends Controller
         if (empty(session('admin_member_id'))) {
             return redirect(env('APP_URL') . '/c-panel');
         }
+        $admin_data = session('admin_data');
+        $des = "";
         $a_data = array(
-            session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], "",
+            session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'],
+            $des,
         );
         save_event_log_member($a_data);
-        $data = Member::find(session('admin_member_id'));
-        session(['data' => $data]);
-        $bisnis = session('bisnis');
-        return view('admin.dashboard', compact('data', 'bisnis'));
+        $bisnis = session('admin_bisnis');
+        return view('admin.dashboard', compact('admin_data', 'bisnis'));
     }
 
     public function reset()

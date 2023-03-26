@@ -1,4 +1,183 @@
 <?PHP
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+
+
+function daftar_customer()
+{
+    $key = env('KEY_KATALOG_PRODUK');
+    $token = md5($key . session('admin_username'));
+    $url = env('URL_KATALOG_PRODUK') . "/api/customer";
+    $data = Http::get($url, [
+        'token' => $token,
+        'reff' => session('admin_username'),
+    ]);
+    if ($data['status'] == 200) {
+        if ($data['record'] > 0) {
+            if ($data['data']) {
+                $html = '<div class="row justify-content-center">
+                <div class="col-md-8 justify-content-center">
+                <h5 class="text-center  text-uppercase">Daftar Customer ' . env('STORE_NAME') . '</h5>
+                <table align="center" class="table table-responsive table-sm" >
+                <thead style="background:#eee"><tr>
+                <th>#</th>
+                <th>Nama Customer</th>
+                <th>Email</th>
+                <th>No Handphone</th>
+                <th>Tanggal Daftar</th>
+                </tr></thead><tbody>';
+                $x = 0;
+                foreach ($data['data'] as $dt) {
+                    $x++;
+                    $html .= '<tr >
+                    <td>' . $x . '</td>
+                    <td>' . $dt['name'] . '</td>
+                    <td>' . $dt['email'] . '</td>
+                    <td>' . $dt['phone'] . '</td>
+                  
+                    <td>' . convert_tgl1($dt['tgl_daftar']) . '</td>
+                    </tr>';
+                }
+                $html .= '</tbody></table>
+                </div></div>';
+                return $html;
+            }
+        } else {
+            return 'Data tidak ditemukan';
+        }
+    } else {
+        return '';
+    }
+}
+function daftar_customer1($tg1, $tg2)
+{
+    if (empty($tg1)) {
+        $tg1 = date('Y-m-d');
+    }
+    if (empty($tg2)) {
+        $tg2 = date('Y-m-d');
+    }
+    $key = env('KEY_KATALOG_PRODUK');
+    $token = md5($key . session('admin_username'));
+    $url = env('URL_KATALOG_PRODUK') . "/api/customer";
+    $data = Http::get($url, [
+        'token' => $token,
+        'reff' => session('admin_username'),
+        'tg1' => $tg1,
+        'tg2' => $tg2
+    ]);
+
+    if ($data['status'] == 200) {
+        if ($data['record'] > 0) {
+            if ($data['data']) {
+                $html = '<div class="row justify-content-center">
+                <div class="col-md-11 ">
+                <h5 class="text-center  text-uppercase">Daftar Customer ' . env('STORE_NAME') . ' Hari Ini</h5>
+                 <div class="col-md-8 justify-content-center">
+                 <table align="center" class="table table-responsive table-sm" >
+              <thead style="background:#eee"><tr>
+                <th>#</th>
+                <th>Nama Customer</th>
+                <th>Email</th>
+                <th>No Handphone</th>
+                <th>Tanggal Daftar</th>
+                </tr></thead><tbody>';
+                $x = 0;
+                foreach ($data['data'] as $dt) {
+                    $x++;
+                    $html .= '<tr >
+                    <td>' . $x . '</td>
+                    <td>' . $dt['name'] . '</td>
+                    <td>' . $dt['email'] . '</td>
+                    <td>' . $dt['phone'] . '</td>
+                  
+                    <td>' . convert_tgl1($dt['tgl_daftar']) . '</td>
+                    </tr>';
+                }
+                $html .= '</tbody></table>
+                </div></div>';
+                return $html;
+            }
+        } else {
+            return 'Data tidak ditemukan';
+        }
+    } else {
+        return '';
+    }
+}
+function transaction_order($status)
+{
+    $ket_status = array('Belum Dibayar', 'Sudah Dibayar', 'Sedang Diproses', 'Sedang Dikemas', 'Sedang Dikirim', 'Sudah Diterima', 'Selesai', '', '', 'Dibatalkan');
+    //    $url = env('URL_KATALOG_PRODUK') . "/api/status-transaction/";
+    $key = env('KEY_KATALOG_PRODUK');
+    $token = md5($key . session('admin_username'));
+    $url = env('URL_KATALOG_PRODUK') . "/api/status-transaction/";
+    // $url = env('URL_KATALOG_PRODUK') . '/api/status-transaction/?token=' . $token . '&reff=' . session('admin_username') . '&status=' . $status;
+    $url = env('URL_KATALOG_PRODUK') . "/api/status-transaction/";
+    $data = Http::get($url, [
+        'token' => $token,
+        'reff' => session('admin_username'),
+        'status' => $status
+    ]);
+    if ($data['status'] == 200) {
+        if ($data['record'] > 0) {
+            if ($data['data']) {
+                $html = '<div class="row justify-content-center">
+                <div class="col-md-11 ">
+                <h5 class="text-uppercase">Daftar Order di ' . env('STORE_NAME') . ' ' . $ket_status[$data['data'][0]['status']] . '</h5>
+                <table align="center" class="table table-responsive  table-sm" >
+                <thead style="background:#eee"><tr>
+                <th>#</th>
+                <th>Nama Customer</th>
+                <th>Tgl Order</th>
+                <th>No Inv</th>
+                <th>Sub Total</th>
+                <th>Total Ongkir</th>
+                <th>Total Belanja</th>
+                <th>Status</th>
+                </tr></thead><tbody>';
+                $x = 0;
+                foreach ($data['data'] as $dt) {
+                    $x++;
+                    $html .= '<tr >
+                    <td>' . $x . '</td>
+                    <td>' . $dt['name'] . '</td>
+                    <td>' . convert_tgl1($dt['date_created']) . '</td>
+                    <td><a href="/customer/transaction/' . $dt['id_transaction'] . '">' . $dt['id_transaction'] . '</a></td>
+                    <td align="right">' . number_format($dt['sub_total']) . '</td>
+                    <td align="right">' . number_format($dt['total_ongkir']) . '</td>
+                    <td align="right">' . number_format($dt['total']) . '</td>
+                    <td>' . $ket_status[$dt['status']] . '</td>
+                    </tr>';
+                }
+                $html .= '</tbody></table>
+                </div></div>';
+                return $html;
+            }
+        } else {
+            return 'Data tidak ditemukan';
+        }
+    } else {
+        return '';
+    }
+}
+function count_transaction_order($status)
+{
+    $url = env('URL_KATALOG_PRODUK') . "/api/status-transaction/";
+    $key = env('KEY_KATALOG_PRODUK');
+    $token = md5($key . session('admin_username'));
+    $data = Http::get($url, [
+        'token' => $token,
+        'reff' => session('admin_username'),
+        'status' => $status
+    ]);
+    if ($data['status'] == 200) {
+        return $data['record'];
+    } else {
+        return '0';
+    }
+}
 function replace_dt_member($wp, $member)
 {
     $wp = str_replace('{{nama}}', $member->nama, $wp);

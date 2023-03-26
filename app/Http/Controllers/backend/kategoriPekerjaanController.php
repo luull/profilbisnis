@@ -89,6 +89,7 @@ class kategoriPekerjaanController extends Controller
         if (empty(session('backend_user_id'))) {
             return redirect(env('APP_URL') . '/backend');
         }
+
         if (($req->edit_id) > 0) {
 
             if (!empty($req->edit_nama)) {

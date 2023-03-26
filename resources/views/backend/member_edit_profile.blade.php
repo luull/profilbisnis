@@ -238,6 +238,14 @@
                 
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Biografi</label>
+                    <textarea name="biografi" id="bio" cols="30" rows="10">{{$profil->biografi}}</textarea>
+                </div>
+            </div>
+        </div>
         @endif
     </div>
     @if (session('akses')<3)
@@ -253,31 +261,18 @@
 @endsection
 
 @section('script')
+<script type="text/javascript" src="{{asset('js/ckeditor/ckeditor.js')}}"></script>
    <script> 
    $(document).ready(function(){
+        CKEDITOR.replace('bio',{
+            height:200,
+            filebrowserUploadUrl:"{{route('ckeditor.upload', ['_token' => csrf_token() ])}} " ,
+            filebrowserBrowseUrl:"{{asset('/admin/file_browse?path=images')}}" ,
+            filebrowserUploadMethod: "form"
+        })
+       kat_pekerjaan();
        $("#kategori_pekerjaan").change(function(){
-            var kp=$("#kategori_pekerjaan").val();
-            $.ajax({
-                type:'get',
-                method:'get',
-                url:'/sub-kategori-pekerjaan/'  + kp ,
-                data:'_token = <?php echo csrf_token() ?>'   ,
-                success:function(hsl) {
-                   if (hsl.code==404){
-                       alert(hsl.error);
-
-                   } else{
-                       var data=[];
-                       data=hsl.result;
-                        $("#sub_kategori_pekerjaan").children().remove().end();
-                       $.each(data, function(i, item) {
-                        $("#sub_kategori_pekerjaan").append('<option value="' + item.sub_kategori_id + '">' + item.nama + '</option>' ); 
-                       })
-                    $("#sub_kategori_pekerjaan").focus();
-                      
-                   }
-                }
-            });
+            kat_pekerjaan();
        })
         $("#propinsi").change(function(){
             var propinsi=$("#propinsi").val();
@@ -333,6 +328,32 @@
                 }
             });
    }
+   
+   function kat_pekerjaan(){
+        var kp=$("#kategori_pekerjaan").val();
+            $.ajax({
+                type:'get',
+                method:'get',
+                url:'/sub-kategori-pekerjaan/'  + kp ,
+                data:'_token = <?php echo csrf_token() ?>'   ,
+                success:function(hsl) {
+                   if (hsl.code==404){
+                       alert(hsl.error);
+
+                   } else{
+                       var data=[];
+                       data=hsl.result;
+                        $("#sub_kategori_pekerjaan").children().remove().end();
+                       $.each(data, function(i, item) {
+                        $("#sub_kategori_pekerjaan").append('<option value="' + item.sub_kategori_id + '">' + item.nama + '</option>' ); 
+                       })
+                    $("#sub_kategori_pekerjaan").focus();
+                      
+                   }
+                }
+            });
+   }
+   
    </script>
 
    

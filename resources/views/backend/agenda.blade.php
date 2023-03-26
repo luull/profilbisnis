@@ -20,10 +20,11 @@
           <table class="table rounded table-striped table-bordered" id="mytable">
             <thead>
               <tr>
-                <th>Photo</th>
+                <th>Acara</th>
+                <th>Alamat</th>
                 <th>Tanggal</th>
                 <th>Jam</th>
-                <th>Acara</th>
+                <th>Photo</th>
                 <!-- <th>Keterangan</th> -->
                 <th>Action</th>
               </tr>
@@ -31,10 +32,11 @@
             <tbody>
               @foreach ($data as $dt)
               <tr>
-                <td><img src="{{asset($dt->foto)}}" class="img-thumbnail" style="max-height: 100px;"> </td>
+                <td>{{$dt->acara}} </td>
+                <td>{{$dt->alamat}} </td>
                 <td>{{convert_tgl1($dt->tanggal)}} </td>
                 <td>{{$dt->jam}} </td>
-                <td>{{$dt->acara}} </td>
+                <td><img src="{{asset($dt->foto)}}" class="img-thumbnail" style="max-height: 100px;"> </td>
                 <!-- <td>{!!$dt->keterangan!!} </td> -->
                 <td>
                   <a href="#" id="e-{{$dt->id}}" onclick="edit('{{$dt->id}}')"><i class="fa fa-lg fa-edit text-info" alt="edit"></i></a>
@@ -83,6 +85,13 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="text" class="form-control input-default @error('alamat')is-invalid @enderror" name="alamat" id="alamat">
+                    @error('alamat')
+                    <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label>Jam</label>
                     <input type="text" class="form-control input-default @error('jam')is-invalid @enderror" name="jam" id="jam">
                     @error('jam')
@@ -98,7 +107,7 @@
                   </div>
                   <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea type="text" class="form-control input-default @error('keterangan')is-invalid @enderror" name="keterangan" id="keterangan" rows=5>
+                    <textarea name="keterangan" id="keterangan" rows=10 style="height:200px !important;width:100% !important;">
                                             </textarea>
                     <br>
                     <a href="#" id="btn-keterangan" class="btn btn-sm btn-info btnEditor">Code</a>
@@ -161,6 +170,13 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="text" class="form-control input-default @error('alamat')is-invalid @enderror" name="alamat" id="edit_alamat">
+                    @error('alamat')
+                    <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label>Jam</label>
                     <input type="text" class="form-control input-default @error('jam')is-invalid @enderror" name="jam" id="edit_jam">
                     @error('jam')
@@ -176,7 +192,8 @@
                   </div>
                   <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea type="text" class="form-control input-default @error('keterangan')is-invalid @enderror" name="keterangan" id="edit_keterangan" rows=5>
+                    <br>
+                    <textarea name="keterangan" id="edit_keterangan" rows=10 style="height:200px !important;width:100% !important;">
                                             </textarea>
                     <br>
                     <a href="#" id="btn-edit_keterangan" class="btn btn-sm btn-info btnEditor">Code</a>
@@ -244,6 +261,9 @@
 <script>
   $(document).ready(function() {
     $("#mytable").DataTable();
+       $('#inputmodal').on('shown.bs.modal', function() {
+        $(document).off('focusin.modal');
+    });
     CKEDITOR.replace('edit_keterangan', {
       height: 200,
       filebrowserUploadUrl: "{{route('ckeditor.upload.backend', ['_token' => csrf_token() ])}} ",
@@ -314,11 +334,15 @@
           // CKEDITOR.instances['edit_keterangan'].destroy();
           $("#edit_id").val(id);
           $("#edit_tanggal").val(hsl.tanggal);
+          $("#edit_alamat").val(hsl.alamat);
           $("#edit_jam").val(hsl.jam);
           $("#edit_acara").val(hsl.acara);
           $("#foto1").attr('src', path + hsl.foto);
           $("#foto_exist").val(hsl.foto);
           CKEDITOR.instances['edit_keterangan'].setData(hsl.keterangan)
+             $('#editmodal').on('shown.bs.modal', function() {
+                $(document).off('focusin.modal');
+            });
           $("#editmodal").modal();
         }
       }

@@ -120,63 +120,63 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="inputmodal">
     <div class="modal-dialog " role="document">
         <div class="modal-content">
-            <form action="{{route('save_sub_kategori_pekerjaan')}}" method="Post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title">Input Sub Kategori Pekerjaan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid  m-0 p-0">
-                        <div class="card ">
-                            <div class="card-body  p-3">
-                                <div class="basic-form">
-                                    <div class="row">
-                                        <div class="col-12 ">
-                                            <div class="form-group">
-                                                <label>Nama Kategori</label>
-                                                <select name="kategori_id" id="kategori_id" class="form-control @error('kategori_id')is-invalid @enderror" name="kategori_id">
-                                                    @foreach ($kategori_pekerjaan as $kp)
-                                                    <option value="{{$kp->id}}">{{$kp->nama}} - {{$kp->id}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-12 ">
-                                                <div class="form-group">
-                                                    <label>ID Sub Kategori</label>
-                                                    <input type="number" class="form-control input-default @error('sub_kategori_id')is-invalid @enderror" name="sub_kategori_id" id="sub_kategori_id">
-                                                    @error('sub_kategori_id')
-                                                    <div class="text-danger mt-1 font-italic">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                            </div>
-                                            <div class="col-12 ">
-                                                <div class="form-group">
-                                                    <label>Nama Sub Kategori</label>
-                                                    <input type="text" class="form-control input-default @error('nama')is-invalid @enderror" name="nama" id="nama">
-                                                    @error('nama')
-                                                    <div class="text-danger mt-1 font-italic">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                            </div>
-
+            <form  action="{{route('save_sub_kategori_pekerjaan')}}" method="Post" enctype="multipart/form-data">    
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Input Sub Kategori Pekerjaan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid  m-0 p-0">
+                                    <div class="card ">
+                                        <div class="card-body  p-3">
+                                            <div class="basic-form">
+                                                 <div class="row">
+                                                 <div class="col-12 ">
+                                                    <div class="form-group">
+                                                        <label>Nama Kategori</label>
+                                                        <select name="kategori_id" id="kategori_id" class="form-control @error('kategori_id')is-invalid @enderror" name="kategori_id">
+                                                            @foreach ($kategori_pekerjaan as $kp)
+                                                                <option value="{{$kp->id}}" >{{$kp->nama}} - {{$kp->id}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div> 
+                                                    <div class="col-12 ">
+                                                    <div class="form-group">
+                                                        <label>ID Sub Kategori</label>
+                                                        <input type="number" class="form-control input-default @error('sub_kategori_id')is-invalid @enderror" name="sub_kategori_id" id="sub_kategori_id" >
+                                                        @error('sub_kategori_id')
+                                                        <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    
+                                                </div>  
+                                                 <div class="col-12 ">
+                                                    <div class="form-group">
+                                                        <label>Nama Sub Kategori</label>
+                                                        <input type="text" class="form-control input-default @error('nama')is-invalid @enderror" name="nama" id="nama">
+                                                        @error('nama')
+                                                        <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    
+                                                </div>   
+                                                  
                                         </div>
                                     </div>
                                 </div>
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" id="btnOk" class="btn btn-primary" value="Proses">
-                        <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <input type="submit" id="btnOk" class="btn btn-primary" value="Proses">
+                    <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
-            </form>
+                    </form>
         </div>
     </div>
 </div>
@@ -208,7 +208,7 @@
         $(".edit").click(function() {
             var idnya = $(this).attr('id').split('-');
             var id = idnya[1];
-
+            
             $.ajax({
                 type: 'get',
                 method: 'get',
@@ -221,28 +221,28 @@
                     } else {
                         $("#edit_kategori_id").children().remove().end();
                         $.ajax({
-                            type: 'get',
-                            method: 'get',
-                            url: '/backend/kategori-pekerjaan/findall',
-                            data: '_token = <?php echo csrf_token() ?>',
-                            success: function(dt1) {
-                                var dt = dt1.hasil;
-                                $.each(dt, function(i, item) {
-                                    if (item.id == hsl.hasil.kategori_id) {
-                                        $("#edit_kategori_id").append('<option value="' + item.id + '" selected>' + item.nama + ' - ' + item.id + '</option>');
+                        type: 'get',
+                        method: 'get',
+                        url: '/backend/kategori-pekerjaan/findall' ,
+                        data: '_token = <?php echo csrf_token() ?>',
+                        success: function(dt1) {
+                            var dt=dt1.hasil;
+                              $.each(dt, function(i, item) {
+                                if (item.id==hsl.hasil.kategori_id){
+                                $("#edit_kategori_id").append('<option value="' + item.id + '" selected>' + item.nama + ' - ' + item.id + '</option>' ); 
 
-                                    } else {
-                                        $("#edit_kategori_id").append('<option value="' + item.id + '">' + item.nama + '</option>');
+                                }else{
+                                    $("#edit_kategori_id").append('<option value="' + item.id + '">' + item.nama + '</option>' ); 
 
-                                    }
-                                })
-                            }
-                        })
-
-
+                                }
+                            })  
+                        }
+                        }) 
+                      
+                        
                         $("#edit_id").val(hsl.hasil.id);
                         $("#edit_nama").val(hsl.hasil.nama);
-                        $("#edit_sub_kategori_id").val(hsl.hasil.sub_kategori_id);
+                         $("#edit_sub_kategori_id").val(hsl.hasil.sub_kategori_id);
                         $("#editmodal").modal();
                     }
                 }

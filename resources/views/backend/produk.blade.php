@@ -26,6 +26,7 @@
                         <th>Slug</th>
                         <th>Ket. Singkat</th>
                         <th>Harga</th>
+                        <th>Produk</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,6 +41,11 @@
                         <td>{{$data->slug}}</td>
                         <td>{!!$data->keterangan_singkat!!}</td>
                         <td>{{number_format($data->harga)}}</td>
+                        @if($data->display == 0)
+                        <td><span class="badge badge-success">Ditampilkan</span></td>
+                        @else 
+                        <td><span class="badge badge-warning">Draft</span></td>
+                        @endif
                         <td>
                             <a href="#" onclick="edit('{{$data->id}}')" id="e-{{$data->id}}" alt="Edit"><i class="fa fa-lg fa-edit text-info" alt="edit"></i></a>
                             <a href="/backend/produk/delete/{{$data->id}}" id="e-{{$data->id}}" alt="Delete"><i class="fa fa-lg fa-trash text-danger"></i></a>
@@ -130,6 +136,13 @@
                                                 <div class="text-danger mt-1 font-italic">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            <div class="form-group">
+                                                <label>Tampilkan</label>
+                                                <select name="display" class="form-control" id="">
+                                                    <option value="0">Ya</option>
+                                                    <option value="1">Tidak</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -215,6 +228,13 @@
                                                 <br><input type="text" class="form-control input-default" id="foto_exist" name="foto_exist">
 
                                                 <input type="file" class="form-control input-default" id="edit_foto" name="foto">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tampilkan </label>
+                                                <select name="display" class="form-control" id="edit_display">
+                                                    <option id="edit_display" value="0">Ya</option>
+                                                    <option id="edit_display" value="1">Tidak</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -326,6 +346,7 @@
                     $("#edit_nama").val(hsl.nama_brg);
                     $("#edit_bisnis").val(hsl.bisnis_id);
                     $("#edit_harga").val(hsl.harga);
+                    $("#edit_display").val(hsl.display);
                     $('#edit_bisnis option[value=' + hsl.bisnis_id + ']').attr('selected', 'selected');
 
                     $("textarea#myeditor21").val(hsl.keterangan_singkat);

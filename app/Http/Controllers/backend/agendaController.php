@@ -50,6 +50,7 @@ class agendaController extends Controller
             return redirect(env('APP_URL') . '/backend');
         }
         $validasi = $request->validate([
+            'alamat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
             'acara' => 'required'
@@ -72,6 +73,7 @@ class agendaController extends Controller
             $hsl = AgendaDefault::where('id', $request->id)
                 ->update([
                     'tanggal' => $request->tanggal,
+                    'alamat' => $request->alamat,
                     'jam' => $request->jam,
                     'acara' => $request->acara,
                     'slug' => Str::slug($request->acara),
@@ -93,6 +95,7 @@ class agendaController extends Controller
             return redirect(env('APP_URL') . '/backend');
         }
         $validasi = $request->validate([
+            'alamat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
             'acara' => 'required'
@@ -111,6 +114,7 @@ class agendaController extends Controller
             }
 
             $hsl = AgendaDefault::create([
+                'alamat' => $request->alamat,
                 'tanggal' => $request->tanggal,
                 'jam' => $request->jam,
                 'acara' => $request->acara,

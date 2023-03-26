@@ -13,8 +13,8 @@
   
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="{{ asset('templates/admin/assets/css/custom.css')}}">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-   
+  <link rel="icon" href="{{ asset('favicon.png')}}" type="image/x-generic">
+  <link rel="shortcut icon" href="{{ asset('favicon.png')}}" type="image/x-generic">
     @yield('style')
     @yield('script_atas')
 

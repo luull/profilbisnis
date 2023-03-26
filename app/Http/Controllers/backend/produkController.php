@@ -57,7 +57,8 @@ class produkController extends Controller
                 'bisnis_id' => 'required',
                 'nama_brg' => 'required',
                 'keterangan' => 'required',
-                'keterangan_singkat' => 'required'
+                'keterangan_singkat' => 'required',
+                'display' => 'required'
             ]);
 
             if ($validasi) {
@@ -79,6 +80,7 @@ class produkController extends Controller
                     'keterangan' => $request->keterangan,
                     'keterangan_singkat' => $request->keterangan_singkat,
                     'foto' => $photo,
+                    'display' => $request->display,
                     'harga' => $request->harga,
                     'petugas_update' => session('backend_username')
                 ]);
@@ -103,7 +105,8 @@ class produkController extends Controller
             'bisnis_id' => 'required',
             'nama_brg' => 'required',
             'keterangan' => 'required',
-            'keterangan_singkat' => 'required'
+            'keterangan_singkat' => 'required',
+            'display' => 'required'
         ]);
         if ($validasi) {
             $photo = "";
@@ -123,6 +126,7 @@ class produkController extends Controller
                 'keterangan' => $request->keterangan,
                 'keterangan_singkat' => $request->keterangan_singkat,
                 'foto' => $photo,
+                'display' => $request->display,
                 'harga' => $request->harga,
                 'petugas_input' => session('backend_username')
 

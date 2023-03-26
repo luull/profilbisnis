@@ -27,6 +27,7 @@ use App\YoutubeDefault;
 use App\Level_member;
 use App\BannerDefault;
 use App\Wa_template_Default;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Http;
@@ -39,7 +40,8 @@ class memberController extends Controller
             return redirect(env('APP_URL') . '/backend');
         }
 
-        $member = Member::all();
+
+        $member = Member::orderBy('tgl_daftar', 'DESC')->get();
         return view('backend.member', compact('member'));
     }
 
@@ -57,12 +59,6 @@ class memberController extends Controller
                 $hsl = $dt->delete();
 
                 if ($hsl) {
-                    if (!empty($gbr)) {
-                        if (file_exists(public_path() . '/' . $gbr)) {
-                            unlink(public_path() . '/' . $gbr);
-                        }
-                    }
-
                     return redirect()->back()->with(['message' => 'Data berhasil dihapus', 'alert' => 'success']);
                 } else {
                     return redirect()->back()->with(['message' => 'Data gagal dihapus', 'alert' => 'danger']);
@@ -183,6 +179,7 @@ class memberController extends Controller
                     'pekerjaan' => $req->pekerjaan,
                     'themes_id' => $req->themes,
                     'level' => $req->level,
+                    'biografi' => $req->biografi,
                     'kartu_nama_id' => $req->kartu_nama,
                     'kategori_pekerjaan' => $req->kategori_pekerjaan,
                     'sub_kategori_pekerjaan' => $req->sub_kategori_pekerjaan,
@@ -216,6 +213,7 @@ class memberController extends Controller
         if (empty(session('backend_user_id'))) {
             return redirect(env('APP_URL') . '/backend');
         }
+        $banner = BannerDefault::first();
         if (session('backend_akses') < 3) {
 
             if ($req) {
@@ -250,6 +248,7 @@ class memberController extends Controller
                     'jabatan' => $req->jabatan,
                     'pekerjaan' => $req->pekerjaan,
                     'themes_id' => $req->themes,
+                    'biografi' => $req->biografi,
                     'kartu_nama_id' => $req->kartu_nama,
                     'kategori_pekerjaan' => $req->kategori_pekerjaan,
                     'sub_kategori_pekerjaan' => $req->sub_kategori_pekerjaan,
@@ -278,16 +277,16 @@ class memberController extends Controller
 
 
                     ]);
+                    $bd = BannerDefault::first();
                     $b = Banner::create([
                         'member_id' => $m->id,
-                        'judul' => 'Judul Banner',
-                        'sub_judul1' => 'Sub Judul Banner1',
-                        'sub_judul2' => 'Sub Judul Banner2',
-                        'tombol' => 'Mulai',
-                        'link' => '#bisnis',
-                        'gambar' => '',
-                        'background' => '',
-
+                        'judul' => $banner->judul,
+                        'sub_judul1' => $banner->sub_judul1,
+                        'sub_judul2' => $banner->sub_judul2,
+                        'tombol' => $banner->tombol,
+                        'link' => $banner->link,
+                        'background' => $banner->background,
+                        'gambar' => $banner->gambar,
                     ]);
                     $des = "Input Data Member, ID Member " . $req->id . " Nama Member " . $req->nama . "/" . $req->member_id;
                     $a_data = array(
@@ -361,7 +360,7 @@ class memberController extends Controller
                 'email' => 'required'
             ]);
             if ($validasi) {
-                $foto = 'images/no-photo.svg';
+                $foto = 'images/no-pic.jpg';
 
                 $hsl = Member::create([
                     'uid' => $request->uid,
@@ -607,69 +606,417 @@ class memberController extends Controller
         return view('admin.welcome_note', compact('judul', 'sub_judul', 'welcome_note'));
     }
 
-    public function import_member_satu(Request $req)
+    public function import_member1(Request $req)
     {
-        if (empty(session('backend_user_id'))) {
-            return redirect(env('APP_URL') . '/backend');
-        }
-        if (empty($req->id)) {
-            return redirect()->back();
-        }
-        if (session('backend_akses') < 3) {
+        //Import hasil dari proses registrasi Mitra di Mitsal
+        try {
 
-            $url = env('URL_IMPORT');
-
+            $app = App_setting::first();
+            if (empty($req->id)) {
+                echo "Nomor Mitra belum diisi";
+                exit;
+            }
+            $url = $app->url_import;
+            $useradmin = '81';
+            $password = $req->p;
+            //$pass = '82118d2b07f7b38e7a9949588a58edc0';
             $response = Http::get($url, [
                 'id' => $req->id,
-                'pass' => '82118d2b07f7b38e7a9949588a58edc0',
+                'pass' => $req->pass,
 
             ]);
+
+
             $data = $response->json();
             $x = 0;
             $y = 0;
+            if ($data != null) {
 
-            foreach ($data as $req) {
+                foreach ($data as $req) {
+                    $moto = $app->moto;
 
-                $moto = "Hidup Mulia Atau Mati Syahid";
-                if (count($data) > 0) {
-                    $cek_username = Member::where('username', $req['member_id'])->first();
+                    //"Hidup Mulia Atau Mati Syahid";
+                    if (count($data) > 0) {
+                        $cek_username = Member::where('username', $req['member_id'])->first();
+                        if ($cek_username) {
+                            echo 'Username ' . $req['member_id'] . ' sudah terdaftar';
+                            exit;
+                        } else {
+
+                            $pekerjaan = $app->job;
+                            $jabatan = $app->job_title;
+                            $tentang_web = $app->about_web;
+                            $propinsi = $app->province_default;
+                            if (!empty($req['propinsi'])) {
+
+                                $dt_prop = Province::where('province', $req['propinsi'])->first();
+                                if ($dt_prop) {
+                                    $propinsi = $dt_prop->id;
+                                }
+                            }
+                            $kota = $app->city_default;
+                            if (!empty($req['kota'])) {
+
+                                $dt_city = City::where('province_id', $propinsi)->where('city_name', ucwords($req['kota']))->first();
+                                if ($dt_city) {
+                                    $kota = $dt_city->city_id;
+                                }
+                            }
+                            $kecamatan = $app->subdistrict;
+
+                            if (!empty($req['kecamatan'])) {
+
+                                $dt_kec = Subdistrict::where('province_id', $propinsi)->where('subdistrict_name', ucwords($req['kecamatan']))->first();
+                                if ($dt_kec) {
+                                    $kecamatan = $dt_kec->subdistrict_id;
+                                }
+                            } else {
+                                if (!empty($kota) && !empty($propinsi)) {
+                                    $dt_kec = Subdistrict::where('province_id', $propinsi)->where('city_id', $kota)->first();
+                                    if ($dt_kec) {
+                                        $kecamatan = $dt_kec->subdistrict_id;
+                                    }
+                                }
+                            }
+
+                            if (!empty($req['kelurahan'])) {
+                                $kelurahan = $req['kelurahan'];
+                            } else {
+                                $kelurahan = '';
+                            }
+                            if (substr($req['telp'], 0, 2) != '62') {
+                                $wa = "62" . substr($req['telp'], 1);
+                            } else {
+                                $wa = $req['telp'];
+                            }
+                            $hsl = Member::create([
+                                'username' => $req['member_id'],
+                                'password' => bcrypt($password),
+                                'member_id' => $req['hu_id'],
+                                'sponsor' => $req['sponsor'],
+                                'nama' => $req['nama'],
+                                'ktp' => $req['ktp'],
+                                'alamat' => $req['alamat'],
+                                'kelurahan' => $kelurahan,
+                                'kecamatan' => $kecamatan,
+                                'kota' => $kota,
+                                'propinsi' => $propinsi,
+                                'negara' => 'Indonesia',
+                                'kd_pos' => $req['kd_pos'],
+                                'email' => $req['email'],
+                                'telp' => $req['telp'],
+                                'hp' => $req['telp'],
+                                'wa' => $wa,
+                                'ig' => '',
+                                'fb' => $req['fb'],
+                                'twitter' => '',
+                                'tube' => '',
+                                'website' => $app->app_domain,
+                                'map' => '',
+                                'latitude' => 0,
+                                'longitude' => 0,
+                                'moto' => $moto,
+                                'perusahaan' => $app->company_name,
+                                'jabatan' => $jabatan,
+                                'pekerjaan' => $pekerjaan,
+                                'themes_id' => $app->themes_default,
+                                'kartu_nama_id' => $app->card_default,
+                                'kategori_pekerjaan' => 2,
+                                'sub_kategori_pekerjaan' => 21,
+                                'tentang_web' => $tentang_web,
+                                'foto' => 'images/no-pic.jpg',
+                                'logo' => 'images/logo.png',
+                                'logo_kecil' => 'images/logo-kecil.png',
+                                'tgl_daftar' => date('Y-m-d h:i:s'),
+                                'tgl_input' => date('Y-m-d h:i:s'),
+                                'petugas_input' => $useradmin,
+
+                            ]);
+
+                            if ($hsl) {
+                                $m = Member::where('username', $req['member_id'])->first();
+                                $wtd = Wa_template_Default::find(1);
+                                $h = Wa_template::create([
+                                    'member_id' => $m->id,
+                                    'beli' => $wtd->beli,
+                                    'daftar' => $wtd->daftar,
+                                    'kontak' => $wtd->kontak,
+
+
+                                ]);
+                                $bd = BannerDefault::first();
+
+                                $b = Banner::create([
+                                    'member_id' => $m->id,
+                                    'judul' => 'Sukses Hanya Dari Rumah',
+                                    'sub_judul1' => 'Apa Bisa Sukses Hanya Dari Rumah saja?',
+                                    'sub_judul2' => 'Ya kita bisa sukses hanya dari rumah saja tampa mengeluarkan biaya besar',
+                                    'tombol' => 'Mulai',
+                                    'link' => '#about',
+                                    'background' => '',
+                                    'gambar' => '',
+                                ]);
+
+                                $x++;
+                            } else {
+                                $y++;
+                            }
+                        }
+                    }
+                }
+                $msg = 'Proses registrasi di ' . $app->app_name . ' sukses, berikut link Profil Bisnisnya : \r\n
+                            ' . $app->app_url . '/' . $req['member_id'] . '\r\n
+                            Username : ' . $req['member_id'] . '\r\n
+                            Password : ' . $password;
+            } else {
+                $msg = "Proses Import Gagal, Data di import tidak ditemukan";
+            }
+
+            return $msg;
+        } catch (Exception $e) {
+            echo 'Proses Import Gagal ' . $e->getMessage();
+        }
+    }
+    public function import_member2(Request $req)
+    {
+        //Proses Import Hasil RO Paket Profil Bisnisi
+
+        try {
+
+            $app = App_setting::first();
+            if (empty($req->id)) {
+                echo "Nomor Mitra belum diisi";
+                exit;
+            }
+            $url = $app->url_import;
+            // $url = 'https://shadnework.com/back-office/import_ro_mysuperboss.php';
+            $useradmin = '82';
+            $password = $req->p;
+            //$pass = '82118d2b07f7b38e7a9949588a58edc0';
+            $response = Http::get($url, [
+                'id' => $req->id,
+                'pass' => $req->pass,
+
+            ]);
+
+            $username = $req->u;
+            $data = $response->json();
+            $x = 0;
+            $y = 0;
+            if ($data != null) {
+
+                foreach ($data as $req) {
+                    $moto = $app->moto;
+                    if (empty($username)) {
+                        $username = $req['member_id'];
+                    }
+                    //"Hidup Mulia Atau Mati Syahid";
+                    if (count($data) > 0) {
+                        $cek_username = Member::where('username', $username)->first();
+                        if ($cek_username) {
+                            echo 'Username ' . $username . ' sudah terdaftar';
+                            exit;
+                        } else {
+
+                            $pekerjaan = $app->job;
+                            $jabatan = $app->job_title;
+                            $tentang_web = $app->about_web;
+                            $propinsi = $app->province_default;
+                            if (!empty($req['propinsi'])) {
+
+                                $dt_prop = Province::where('province', $req['propinsi'])->first();
+                                if ($dt_prop) {
+                                    $propinsi = $dt_prop->id;
+                                }
+                            }
+                            $kota = $app->city_default;
+                            if (!empty($req['kota'])) {
+
+                                $dt_city = City::where('province_id', $propinsi)->where('city_name', ucwords($req['kota']))->first();
+                                if ($dt_city) {
+                                    $kota = $dt_city->city_id;
+                                }
+                            }
+                            $kecamatan = $app->subdistrict;
+
+                            if (!empty($req['kecamatan'])) {
+
+                                $dt_kec = Subdistrict::where('province_id', $propinsi)->where('subdistrict_name', ucwords($req['kecamatan']))->first();
+                                if ($dt_kec) {
+                                    $kecamatan = $dt_kec->subdistrict_id;
+                                }
+                            } else {
+                                if (!empty($kota) && !empty($propinsi)) {
+                                    $dt_kec = Subdistrict::where('province_id', $propinsi)->where('city_id', $kota)->first();
+                                    if ($dt_kec) {
+                                        $kecamatan = $dt_kec->subdistrict_id;
+                                    }
+                                }
+                            }
+
+                            if (!empty($req['kelurahan'])) {
+                                $kelurahan = $req['kelurahan'];
+                            } else {
+                                $kelurahan = '';
+                            }
+                            if (substr($req['telp'], 0, 2) != '62') {
+                                $wa = "62" . substr($req['telp'], 1);
+                            } else {
+                                $wa = $req['telp'];
+                            }
+                            $hsl = Member::create([
+                                'username' => $username,
+                                'password' => bcrypt($password),
+                                'member_id' => $req['hu_id'],
+                                'sponsor' => $req['sponsor'],
+                                'nama' => $req['nama'],
+                                'ktp' => $req['ktp'],
+                                'alamat' => $req['alamat'],
+                                'kelurahan' => $kelurahan,
+                                'kecamatan' => $kecamatan,
+                                'kota' => $kota,
+                                'propinsi' => $propinsi,
+                                'negara' => 'Indonesia',
+                                'kd_pos' => $req['kd_pos'],
+                                'email' => $req['email'],
+                                'telp' => $req['telp'],
+                                'hp' => $req['telp'],
+                                'wa' => $wa,
+                                'ig' => '',
+                                'fb' => $req['fb'],
+                                'twitter' => '',
+                                'tube' => '',
+                                'website' => $app->app_domain,
+                                'map' => '',
+                                'latitude' => 0,
+                                'longitude' => 0,
+                                'moto' => $moto,
+                                'perusahaan' => $app->company_name,
+                                'jabatan' => $jabatan,
+                                'pekerjaan' => $pekerjaan,
+                                'themes_id' => $app->themes_default,
+                                'kartu_nama_id' => $app->card_default,
+                                'kategori_pekerjaan' => 2,
+                                'sub_kategori_pekerjaan' => 21,
+                                'tentang_web' => $tentang_web,
+                                'foto' => 'images/no-pic.jpg',
+                                'logo' => 'images/logo.png',
+                                'logo_kecil' => 'images/logo-kecil.png',
+                                'tgl_daftar' => date('Y-m-d h:i:s'),
+                                'tgl_input' => date('Y-m-d h:i:s'),
+                                'petugas_input' => $useradmin,
+
+                            ]);
+
+                            if ($hsl) {
+                                $m = Member::where('username', $username)->first();
+                                $wtd = Wa_template_Default::find(1);
+                                $h = Wa_template::create([
+                                    'member_id' => $m->id,
+                                    'beli' => $wtd->beli,
+                                    'daftar' => $wtd->daftar,
+                                    'kontak' => $wtd->kontak,
+
+
+                                ]);
+                                $bd = BannerDefault::first();
+
+                                $b = Banner::create([
+                                    'member_id' => $m->id,
+                                    'judul' => 'Sukses Hanya Dari Rumah',
+                                    'sub_judul1' => 'Apa Bisa Sukses Hanya Dari Rumah saja?',
+                                    'sub_judul2' => 'Ya kita bisa sukses hanya dari rumah saja tampa mengeluarkan biaya besar',
+                                    'tombol' => 'Mulai',
+                                    'link' => '#about',
+                                    'background' => '',
+                                    'gambar' => '',
+                                ]);
+
+                                $x++;
+                            } else {
+                                $y++;
+                            }
+                        }
+                    }
+                }
+                $msg = 'Proses registrasi di ' . $app->app_name . ' sukses, berikut link Profil Bisnisnya : \r\n
+                            ' . $app->app_url . '/' . $username . '\r\n
+                            Username : ' . $username . '\r\n
+                            Password : ' . $password;
+            } else {
+                $msg = "Proses Import Gagal, Data di import tidak ditemukan";
+            }
+
+            return $msg;
+        } catch (Exception $e) {
+            echo 'Proses Import Gagal ' . $e->getMessage();
+        }
+    }
+    public function preview_import_member(Request $req)
+    {
+        try {
+            if (empty(session('backend_user_id'))) {
+                return redirect(env('APP_URL') . '/backend');
+            }
+            if (session('backend_akses') < 3) {
+                $app = App_setting::first();
+                $banner = BannerDefault::first();
+                $id = $req->id;
+                $url = env('URL_IMPORT');
+                $response = Http::get($url, [
+                    'id' => $id,
+                    'pass' => '82118d2b07f7b38e7a9949588a58edc0',
+                ]);
+                $data = $response->json();
+                if ($data != null) {
+
+                    foreach ($data as $req) {
+                    }
+                    $cek_username = Member::where('member_id', $id)->first();
                     if ($cek_username) {
-                        echo 'Username ' . $req['member_id'] . ' sudah terdaftar';
+                        $pesan = 'Username ' . $req['member_id'] . ' sudah terdaftar';
+                        return redirect('/backend/import')->with(['message' => $pesan, 'alert' => 'danger']);
                     } else {
 
-                        $pekerjaan = "Mitraniaga SNW";
-                        $jabatan = "Mitraniaga";
-                        $tentang_web = "Web ini merupakan wadah untuk memperkenalkan diri saya dan bisnis yang saya tekuni, semoga dengan adanya website ini bisa menjadi sarana saya untuk menjelaskan tentang semua bisnis saya kepada Anda.";
-                        $propinsi = 6;
                         if (!empty($req['propinsi'])) {
 
                             $dt_prop = Province::where('province', $req['propinsi'])->first();
                             if ($dt_prop) {
                                 $propinsi = $dt_prop->id;
-                            }
-                        }
-                        $kota = 153;
-                        if (!empty($req['kota'])) {
+                                if (!empty($req['kota'])) {
 
-                            $dt_city = City::where('province_id', $propinsi)->where('city_name', ucwords($req['kota']))->first();
-                            if ($dt_city) {
-                                $kota = $dt_city->city_id;
-                            }
-                        }
-                        $kecamatan = 2104;
-
-                        if (!empty($req['kecamatan'])) {
-
-                            $dt_kec = Subdistrict::where('province_id', $propinsi)->where('subdistrict_name', ucwords($req['kecamatan']))->first();
-                            if ($dt_kec) {
-                                $kecamatan = $dt_kec->subdistrict_id;
-                            }
-                        } else {
-                            if (!empty($kota) && !empty($propinsi)) {
-                                $dt_kec = Subdistrict::where('province_id', $propinsi)->where('city_id', $kota)->first();
-                                if ($dt_kec) {
-                                    $kecamatan = $dt_kec->subdistrict_id;
+                                    $dt_city = City::where('province_id', $propinsi)->where('city_name', ucwords($req['kota']))->first();
+                                    if ($dt_city) {
+                                        $kota = $dt_city->city_id;
+                                    } else {
+                                        $kota = '';
+                                    }
                                 }
+
+                                if (!empty($req['kecamatan'])) {
+
+                                    $dt_kec = Subdistrict::where('province_id', $propinsi)->where('subdistrict_name', ucwords($req['kecamatan']))->first();
+                                    if ($dt_kec) {
+                                        $kecamatan = $dt_kec->subdistrict_id;
+                                    } else {
+                                        $kecamatan = '';
+                                    }
+                                } else {
+                                    if (!empty($kota) && !empty($propinsi)) {
+                                        $dt_kec = Subdistrict::where('province_id', $propinsi)->where('city_id', $kota)->first();
+                                        if ($dt_kec) {
+                                            $kecamatan = $dt_kec->subdistrict_id;
+                                        } else {
+                                            $kecamatan = '';
+                                        }
+                                    } else {
+                                        $propinsi = '';
+                                        $kota = '';
+                                    }
+                                }
+                            } else {
+                                $propinsi = '';
+                                return redirect()->back()->with(['message' => 'Propinsi tidak ditemukan', 'alert' => 'danger']);
                             }
                         }
 
@@ -678,106 +1025,145 @@ class memberController extends Controller
                         } else {
                             $kelurahan = '';
                         }
-                        if (substr($req['telp'], 3) != '+62') {
-                            $wa = "+62" . substr($req['telp'], 1, strlen($req['telp']) - 1);
+                        if (substr($req['telp'], 0, 2) != '62') {
+                            $wa = "62" . substr($req['telp'], 1);
                         } else {
                             $wa = $req['telp'];
                         }
-                        dd($wa);
-                        $hsl = Member::create([
-                            'username' => $req['member_id'],
-                            'password' => bcrypt($req['member_id'] . date('Y')),
-                            'member_id' => $req['hu_id'],
-                            'sponsor' => $req['sponsor'],
-                            'nama' => $req['nama'],
-                            'ktp' => $req['ktp'],
-                            'alamat' => $req['alamat'],
-                            'kelurahan' => $kelurahan,
-                            'kecamatan' => $kecamatan,
-                            'kota' => $kota,
-                            'propinsi' => $propinsi,
-                            'negara' => 'Indonesia',
-                            'kd_pos' => $req['kd_pos'],
-                            'email' => $req['email'],
-                            'telp' => $req['telp'],
-                            'hp' => $req['telp'],
-                            'wa' => $wa,
-                            'ig' => '',
-                            'fb' => $req['fb'],
-                            'twitter' => '',
-                            'tube' => '',
-                            'website' => env('APP_DOMAIN'),
-                            'map' => '',
-                            'latitude' => 0,
-                            'longitude' => 0,
-                            'moto' => env('MOTO'),
-                            'perusahaan' => env('COMPANY_NAME'),
-                            'jabatan' => $jabatan,
-                            'pekerjaan' => $pekerjaan,
-                            'themes_id' => env('THEMES_DEFAULT'),
-                            'kartu_nama_id' => env('KARTU_NAMA_DEFAULT'),
-                            'kategori_pekerjaan' => 2,
-                            'sub_kategori_pekerjaan' => 21,
-                            'tentang_web' => $tentang_web,
-                            'foto' => 'images/no-pic.jpg',
-                            'logo' => 'images/logo.png',
-                            'logo_kecil' => 'images/logo-kecil.png',
-                            'tgl_daftar' => date('Y-m-d h:i:s'),
-                            'tgl_input' => date('Y-m-d h:i:s'),
-                            'petugas_input' => session('backend_user_id'),
-
-
-
-
-
-
-                        ]);
-
-                        if ($hsl) {
-                            $m = Member::where('username', $req['member_id'])->first();
-                            $wtd = Wa_template_Default::find(1);
-                            $h = Wa_template::create([
-                                'member_id' => $m->id,
-                                'beli' => $wtd->beli,
-                                'daftar' => $wtd->daftar,
-                                'kontak' => $wtd->kontak,
-
-
-                            ]);
-                            $bd = BannerDefault::first();
-
-                            $b = Banner::create([
-                                'member_id' => $m->id,
-                                'judul' => 'Sukses Hanya Dari Rumah',
-                                'sub_judul1' => 'Apa Bisa Sukses Hanya Dari Rumah saja?',
-                                'sub_judul2' => 'Ya kita bisa sukses hanya dari rumah saja tampa mengeluarkan biaya besar',
-                                'tombol' => 'Mulai',
-                                'link' => '#about',
-                                'background' => '',
-                                'gambar' => '',
-                            ]);
-                            $des = "Input Data Member, ID Member " . $req['hu_id'] . " Nama Member " . $req['nama'] . "/" . $req['member_id'];
-                            $a_data = array(
-                                session('backend_user_id'), request()->url(),
-                                request()->headers->get('referer'),
-                                $_SERVER['REMOTE_ADDR'],
-                                $des,
-                            );
-                            save_event_log_admin($a_data);
-                            $x++;
-                        } else {
-                            $y++;
-                        }
+                        $allprovince = Province::all();
+                        $allcity = City::all();
+                        $allsubdis = Subdistrict::all();
+                        return view('backend.preview_import_member', compact('data', 'propinsi', 'kota', 'kecamatan', 'kelurahan', 'wa', 'allprovince', 'allcity', 'allsubdis'));
                     }
+                } else {
+                    $pesan = "Data yang akan diimport kosong";
+                    return redirect('/backend/import')->with(['message' => $pesan, 'alert' => 'danger']);
                 }
             }
-            echo 'Proses import sukses, berikut link profilmembernya : <br>
-                        ' . env('APP_URL') . '/' . $req['member_id'] . '<br>
-                        Username : ' . $req['member_id'] . '<br>
-                        Password : ' . $req['member_id'] . '2021';
+        } catch (Exception $e) {
+            $pesan = "Proses Import Gagal " . $e->getMessage();
+            return redirect('/backend/import')->with(['message' => $pesan, 'alert' => 'danger']);
         }
     }
     public function import_member(Request $req)
+    {
+
+        if (empty(session('backend_user_id'))) {
+            return redirect(env('APP_URL') . '/backend');
+        }
+        if (session('backend_akses') < 3) {
+            $app = App_setting::first();
+            $banner = BannerDefault::first();
+            $id = $req->hu_id;
+            $moto = $app->moto;
+            $cek_username = Member::where('username', $req->member_id)->first();
+            if ($cek_username) {
+                $pesan = 'Username ' . $req->member_id . ' sudah terdaftar';
+                return redirect('/backend/import')->with(['message' => $pesan, 'alert' => 'danger']);
+            } else {
+
+                $pekerjaan = $app->job;
+                $jabatan = $app->job_title;
+                $tentang_web = $app->abut_web;
+                $perusahaan = $app->company_name;
+
+                $hsl = Member::create([
+                    'username' => $req->member_id,
+                    'password' => bcrypt(trim($req->member_id) . date('Y')),
+                    'member_id' => $req->hu_id,
+                    'sponsor' => $req->sponsor,
+                    'nama' => $req->nama,
+                    'ktp' => substr($req->ktp, 0, 16),
+                    'alamat' => $req->alamat,
+                    'kelurahan' => $req->kelurahan,
+                    'kecamatan' => $req->kecamatan,
+                    'kota' => $req->kota,
+                    'propinsi' => $req->propinsi,
+                    'negara' => 'Indonesia',
+                    'kd_pos' => $req->kd_pos,
+                    'email' => $req->email,
+                    'telp' => $req->telp,
+                    'hp' => $req->telp,
+                    'wa' => $req->wa,
+                    'ig' => '',
+                    'fb' => $req->fb,
+                    'twitter' => '',
+                    'tube' => '',
+                    'website' => $app->app_domain,
+                    'map' => '',
+                    'latitude' => 0,
+                    'longitude' => 0,
+                    'moto' => $moto,
+                    'perusahaan' => $perusahaan,
+                    'jabatan' => $jabatan,
+                    'pekerjaan' => $pekerjaan,
+                    'themes_id' => $app->themes_default,
+                    'kartu_nama_id' => $app->card_default,
+                    'kategori_pekerjaan' => 2,
+                    'sub_kategori_pekerjaan' => 21,
+                    'tentang_web' => $tentang_web,
+                    'foto' => 'images/no-pic.jpg',
+                    'logo' => 'images/logo.png',
+                    'logo_kecil' => 'images/logo-kecil.png',
+                    'tgl_daftar' => date('Y-m-d h:i:s'),
+                    'tgl_input' => date('Y-m-d h:i:s'),
+                    'petugas_input' => session('backend_user_id'),
+
+
+
+
+
+
+                ]);
+                if ($hsl) {
+                    $m = Member::where('username', $req->member_id)->first();
+                    $wtd = Wa_template_Default::find(1);
+                    $h = Wa_template::create([
+                        'member_id' => $m->id,
+                        'beli' => $wtd->beli,
+                        'daftar' => $wtd->daftar,
+                        'kontak' => $wtd->kontak,
+
+
+                    ]);
+                    $bd = BannerDefault::first();
+
+                    $b = Banner::create([
+                        'member_id' => $m->id,
+                        'judul' => $banner->judul,
+                        'sub_judul1' => $banner->sub_judul1,
+                        'sub_judul2' => $banner->sub_judul2,
+                        'tombol' => $banner->tombol,
+                        'link' => $banner->link,
+                        'background' => $banner->background,
+                        'gambar' => $banner->gambar,
+                    ]);
+                    $des = "Input Data Member, ID Member " . $req->hu_id . " Nama Member " . $req->nama . "/" . $req->member_id;
+                    $a_data = array(
+                        session('backend_user_id'), request()->url(),
+                        request()->headers->get('referer'),
+                        $_SERVER['REMOTE_ADDR'],
+                        $des,
+                    );
+                    save_event_log_admin($a_data);
+                    $pesan = 'Proses import sukses, berikut link profilmembernya : <br>
+                        <a href="' . $app->app_url . '/' . $req->member_id . '">' . $app->app_url . '/' . $req->member_id . '</a><br>
+                        Username : ' . $req->member_id . '<br>
+                        Password : ' . $req->member_id . '2021';
+                    return redirect('/backend/import')->with(['message' => $pesan, 'alert' => 'success']);
+                } else {
+                    $pesan = 'Proses Import Error';
+                    return redirect()->back()->with(['message' => $pesan, 'alert' => 'danger']);
+                }
+            }
+        }
+    }
+    public function import_member_view()
+    {
+        return view('backend.import_member');
+    }
+
+    public function import_member_satu(Request $req)
     {
 
         if (empty(session('backend_user_id'))) {
@@ -938,11 +1324,6 @@ class memberController extends Controller
             }
         }
     }
-    public function import_member_view()
-    {
-        return view('backend.import_member');
-    }
-
     public function cpanel(Request $req)
     {
         if (!empty($req->id)) {
