@@ -72,6 +72,7 @@ class loginController extends Controller
                 $a_data = array(
                     session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], '',
                 );
+                // dd(session('admin_data'));
                 save_event_log_member($a_data);
                 return view('admin.dashboard', compact('data', 'bisnis'));
             } else {
@@ -123,6 +124,7 @@ class loginController extends Controller
                 $a_data = array(
                     $data->id, request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], $des
                 );
+                
                 save_event_log_admin($a_data);
                 return view('backend.dashboard', compact('data'));
             } else {
@@ -182,7 +184,7 @@ class loginController extends Controller
         if (empty(session('admin_member_id'))) {
             return redirect(env('APP_URL') . '/c-panel');
         }
-        $admin_data = session('admin_data');
+        $admin_data = session('admin_data'); 
         $des = "";
         $a_data = array(
             session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'],

@@ -1,0 +1,6 @@
+.transactions-list:hover{
+    background: #eaeaea;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}

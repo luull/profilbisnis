@@ -212,6 +212,7 @@ Route::group(['middleware' => 'backendMiddleware'], function () {
 Route::group(['middleware' => 'loginMiddleware'], function () {
     Route::get('/admin/token', 'admin\tokenController@index');
     Route::post('/admin/token/save', 'admin\tokenController@create')->name('create_token');
+    Route::get('/admin/token/find/{id}', 'admin\tokenController@find');
     Route::get('/admin/datamember', 'admin\tokenController@datamember');
     Route::get('/admin/profile', 'admin\profileController@index');
     Route::post('/admin/profile', 'admin\profileController@update')->name('update_profile');

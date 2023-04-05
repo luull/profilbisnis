@@ -26,6 +26,7 @@
   <link href="{{ asset('templates/new-admin/assets/css/components/custom-modal.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ asset('templates/new-admin/plugins/animate/animate.css')}}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" type="text/css" href="{{ asset('templates/new-admin/assets/css/widgets/modules-widgets.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('templates/new-admin/assets/css/style.css')}}">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
   @yield('style')
   @yield('script_atas')
