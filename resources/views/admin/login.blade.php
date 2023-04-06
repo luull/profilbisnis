@@ -32,7 +32,7 @@
                         </div>
                         @endif
                         @if (session('message'))
-                        <div class="alert alert-danger mt-3">
+                        <div class="alert alert-{{ session('alert') }} mt-3">
                             {{ session('message') }}
                         </div>
                         @endif

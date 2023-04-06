@@ -58,7 +58,6 @@ class loginController extends Controller
         if ($data) {
             if (Hash::check($pwd, $data->password)) {
                 session(['login_sukses' => true]);
-                session(['login_sukses' => true]);
                 session(['admin_member_id' => $data->id]);
                 session(['admin_username' => $uid]);
                 session(['admin_photo' => $data->foto]);
@@ -72,9 +71,12 @@ class loginController extends Controller
                 $a_data = array(
                     session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], '',
                 );
-                // dd(session('admin_data'));
                 save_event_log_member($a_data);
-                return view('admin.dashboard', compact('data', 'bisnis'));
+                $admin_data = $data;
+                Member::find($data->id)->update([
+                    'last_login' => date('Y-m-d h:i:s')
+                ]);
+                return view('admin.dashboard', compact('admin_data', 'bisnis'));
             } else {
                 $ctr_login = session('counter_login');
                 $ctr_login++;
@@ -108,25 +110,25 @@ class loginController extends Controller
 
         $uid = $request->username;
         $pwd = $request->password;
-        $data = Admin::where('uid', $uid)->first();
-        if ($data) {
-            if (Hash::check($pwd, $data->pwd)) {
+        $backend_data = Admin::where('uid', $uid)->first();
+        if ($backend_data) {
+            if (Hash::check($pwd, $backend_data->pwd)) {
                 session(['login_backend_sukses' => true]);
-                session(['user_id' => $data->id]);
-                session(['username' => $data->uid]);
-                session(['photo' => $data->foto]);
-                session(['data' => $data]);
-                session(['telp' => $data->telp]);
-                session(['email' => $data->email]);
-                session(['akses' => $data->akses]);
-                session(['nama' => $data->nama]);
+                session(['backend_user_id' => $backend_data->id]);
+                session(['backend_username' => $backend_data->uid]);
+                session(['backend_photo' => $backend_data->foto]);
+                session(['backend_data' => $backend_data]);
+                session(['backend_telp' => $backend_data->telp]);
+                session(['backend_email' => $backend_data->email]);
+                session(['backend_akses' => $backend_data->akses]);
+                session(['backend_nama' => $backend_data->nama]);
                 $des = "Login Backend";
                 $a_data = array(
-                    $data->id, request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], $des
+                    $backend_data->id, request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], $des
                 );
-                
                 save_event_log_admin($a_data);
-                return view('backend.dashboard', compact('data'));
+
+                return view('backend.dashboard', compact('backend_data'));
             } else {
 
 
@@ -153,7 +155,7 @@ class loginController extends Controller
 
     public function logout(Request $request)
     {
-        $username = session('username');
+        $username = session('admin_username');
         if (!empty($username)) {
 
             $des = "Username $username";
@@ -169,10 +171,10 @@ class loginController extends Controller
     }
     public function logout_backend(Request $request)
     {
-        if (!empty(session('user_id'))) {
+        if (!empty(session('backend_user_id'))) {
 
             $a_data = array(
-                session('user_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], 'Log Out'
+                session('backend_user_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'], 'Log Out'
             );
             save_event_log_admin($a_data);
         }
@@ -181,10 +183,7 @@ class loginController extends Controller
     }
     public function dashboard()
     {
-        if (empty(session('admin_member_id'))) {
-            return redirect(env('APP_URL') . '/c-panel');
-        }
-        $admin_data = session('admin_data'); 
+        $admin_data = session('admin_data');
         $des = "";
         $a_data = array(
             session('admin_member_id'), request()->url(), request()->headers->get('referer'), $_SERVER['REMOTE_ADDR'],

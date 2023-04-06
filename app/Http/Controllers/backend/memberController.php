@@ -53,8 +53,9 @@ class memberController extends Controller
         if (session('backend_akses') < 3) {
 
             $dt = Member::find($req->id);
+            $check = Member::where('id', $req->id)->first();
             if ($dt) {
-
+                Token::where('token', $check->token)->delete();
                 $gbr = $dt->foto;
                 $hsl = $dt->delete();
 

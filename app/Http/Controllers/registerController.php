@@ -86,8 +86,11 @@ class registerController extends Controller
         }
         $id = session('token_data')->id;
         $id_referal = session('token_data')->pembeli;
+        $token = session('token_data')->token;
+        $level = session('token_data')->type;
         if ($req) {
             $hsl = Member::create([
+                'level' => $level,
                 'username' => $req->username,
                 'password' => bcrypt($req->password),
                 'member_id' => $req->member_id,
@@ -114,11 +117,13 @@ class registerController extends Controller
                 'jabatan' => $req->jabatan,
                 'pekerjaan' => $req->pekerjaan,
                 'tentang_web' => $req->tentang_web,
+                'map' => $req->map,
                 'themes_id' => '13',
                 'kartu_nama_id' => '1',
                 'kategori_pekerjaan' => $req->kategori_pekerjaan,
                 'sub_kategori_pekerjaan' => $req->sub_kategori_pekerjaan,
                 'id_referal' => $id_referal,
+                'token' => $token,
                 'foto' => 'images/no-pic.jpg',
                 'logo' => 'images/logo.png',
                 'logo_kecil' => 'images/logo-kecil.png',
@@ -128,6 +133,8 @@ class registerController extends Controller
             ]);
             $update = Token::find($id)->update([
                 'status' => '1',
+                'terpakai' => $req->username,
+                'tgl_dipakai' => date('Y-m-d h:i:s')
             ]);
 
             if ($hsl && $update) {
@@ -152,7 +159,7 @@ class registerController extends Controller
                     'background' => '',
 
                 ]);
-                session()->flush();
+                $req->session()->flush();
                 return redirect('/c-panel')->with(['message' => 'Data Berhasil Ditambahkan ', 'alert' => 'success']);
             } else {
                 return redirect()->back()->with(['message' => 'Data gagal ditambahkan', 'alert' => 'danger']);

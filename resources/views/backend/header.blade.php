@@ -149,7 +149,7 @@
           </li>*/?>
           <li class="dropdown"><a href="#" data-toggle="dropdown"
               class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-              <img alt="image" src="{{ asset(session('backend_photo')) }}" class="user-img-radious-style"  alt="{{ session('backend_data')->nama }}">
+              <img alt="image" src="{{ asset(session('backend_data')->foto) }}" class="user-img-radious-style"  alt="{{ session('backend_data')->nama }}">
               <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">Hallo {{ session('backend_data')->nama }}</div>

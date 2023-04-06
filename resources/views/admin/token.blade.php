@@ -152,9 +152,9 @@
                                             </div>
                                         </div>
                                         <div class="t-rate rate-dec">
-                                            @foreach ($member as $m )
-                                                <p><span> <i class="fa fa-user-check"></i> {{$m->username}}</span></p>
-                                            @endforeach
+                                  
+                                                <p><span> <i class="fa fa-user-check"></i> {{$dt->terpakai}}</span></p>
+                                     
                                             <div class="bills-stats">
                                                 @if($dt->status == 0)
                                                 <span>{{ date('d-m-Y', strtotime($dt->tgl_beli)) }}</span>
