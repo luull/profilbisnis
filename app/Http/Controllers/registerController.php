@@ -38,24 +38,30 @@ class registerController extends Controller
         ]);
         $token = $request->token;
         $hsl = Token::where('token', $token)->first();
-        if ($hsl->status == 1) {
-            return redirect('/register/verify')->with('message', 'Token Telah digunakan ');
-        }
+    
         if ($hsl) {
-            session(['token_data' => $hsl]);
-            return redirect('/register');
+            if ($hsl->status == 1) {
+                return redirect('/register/verify')->with('message', 'Token Telah digunakan ');
+            }else{
+                session(['token_data' => $hsl]);
+                return redirect('/register');
+                
+            }
         } else {
+            return redirect()->back()->with('message', 'Token salah ');
             $ctr_login = session('counter_login');
             $ctr_login++;
             session(['counter_login' => $ctr_login]);
+            if (session('counter_login') > 5) {
+                session(['blocked' => 1]);
+                return view('admin.login-blocked');
+            } else {
+                session(['blocked' => 0]);
+                return redirect('/register/verify')->with('message', 'Token salah ');
+            }
         }
-        if (session('counter_login') > 5) {
-            session(['blocked' => 1]);
-            return view('admin.login-blocked');
-        } else {
-            session(['blocked' => 0]);
-            return redirect('/register/verify')->with('message', 'Token salah ');
-        }
+      
+       
     }
     public function register()
     {
@@ -132,7 +138,7 @@ class registerController extends Controller
                 'petugas_input' => session('backend_user_id'),
             ]);
             $update = Token::find($id)->update([
-                'status' => '1',
+                'status' => '2',
                 'terpakai' => $req->username,
                 'tgl_dipakai' => date('Y-m-d h:i:s')
             ]);

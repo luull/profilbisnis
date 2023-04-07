@@ -4,7 +4,7 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="/admin/produk">Beli Token</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href>Data Token</a></li>
         </ol>
     </nav>
 </div>
@@ -13,7 +13,7 @@
         @if (count($data)>=1)
         <div class="row">
             <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing" style="height: 500px;max-height:500px;overflow:scroll;">
-                <a href class="btn btn-success mb-3" data-toggle="modal" data-target="#slideupModal">Beli Token</a>
+                <a href="/admin/belitoken" class="btn btn-success mb-3" >Beli Token</a>
                 <div class="widget widget-table-one">
                     <div class="widget-heading">
                         <h5 class="">Data Token</h5>
@@ -38,7 +38,7 @@
 
                     <div class="widget-content">
                         @foreach($data as $dt)
-                        @if($dt->status == 0)
+                        @if($dt->status == 1)
                         <div class="transactions-list" id="e-{{$dt->id}}">
                             <div class="t-item">
                                 <div class="t-company-name">
@@ -93,16 +93,12 @@
                             </div>
                             <div class="acc-action">
                                 <div class="">
-                                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg></a>
-                                    <a href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                            <line x1="1" y1="10" x2="23" y2="10"></line>
-                                        </svg></a>
+                                    <i data-feather="plus"></i>
+                                    <a href="javascript:void(0);"><i class="far fa-copy"></i></a>
+                                    <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
+                                  
                                 </div>
-                                <a href data-toggle="modal" data-target="#slideupModal">Bagikan Token</a>
+                                <!-- <a href data-toggle="modal" data-target="#slideupModal"> <i class="fa fa-share"></i> Bagikan Token</a> -->
                             </div>
                         </div>
                     </div>
@@ -133,7 +129,7 @@
         
                             <div class="widget-content">
                                 @foreach($data as $dt)
-                                @if($dt->status == 1)
+                                @if($dt->status == 2)
                                 <div class="transactions-list" style="cursor: none;pointer-events: none;">
                                     <div class="t-item">
                                         <div class="t-company-name">
@@ -193,50 +189,7 @@
         @endif
     </div>
 </div>
-<div id="slideupModal" class="modal animated slideInUp custo-slideInUp" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pembelian Token</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-            <form action="{{route('create_token')}}" method="Post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="col-lg-12 layout-spacing">
-                        <div class="form-group mb-3">
-                            <select name="type" class="form-control" id="type">
-                                <option value selected>Pilih Tipe Member</option>
-                                <option value="0">Admin</option>
-                                <option value="1">Superadmin</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-3" id="jumlahdiv">
-                            <label>Jumlah Token</label>
-                            <input type="text" min="1" value="1" class="form-control jumlah" id="inputan" name="jumlah" onkeyup="onClick()">
-                            <input type="hidden" class="form-control total" id="total" name="total">
-                        </div>
-                        <div class="form-group" id="totaldiv">
-                            <label for="result">Total</label>
-                            <h2 id="result"></h2>
-                            {{-- <input type="text" class="form-control" value="-" id="result" readonly /> --}}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer md-button">
-                    <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Batal</button>
-                    <button type="submit" class="btn btn-success">Beli</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 
 @endsection
 @section('script')
@@ -246,38 +199,6 @@
     $('#jumlahdiv').hide();
     $('#totaldiv').hide();
    });
-   $('select[name="type"]').on('change', function() {
-       var type = $(this).val();
-       if(type == 0){
-        var jumlah = $(".jumlah").val('');
-        var total = $("#result").text('');
-        var harga = '350000';
-        $('#jumlahdiv').show();
-        $("#inputan").on("keyup", function(event) {
-            var jumlah = $(".jumlah").val();
-            var total = parseInt(harga) * parseInt(jumlah);
-            var rupiah = parseInt(total).toLocaleString();
-            var totalrupiah = parseInt(harga).toLocaleString();
-            $('#totaldiv').show();
-            $("#result").text('Rp.'+rupiah);
-            $("#total").val(totalrupiah);
-        });
-        }else{
-        var jumlah = $(".jumlah").val('');
-        var total = $("#result").text('');
-        var harga = '450000';
-        $('#jumlahdiv').show();
-        $("#inputan").on("keyup", function(event) {
-            var jumlah = $(".jumlah").val();
-            var total = parseInt(harga) * parseInt(jumlah);
-            var rupiah = parseInt(total).toLocaleString();
-            var totalrupiah = parseInt(harga).toLocaleString();
-            $('#totaldiv').show();
-            $("#result").text('Rp.'+rupiah);
-            $("#total").val(totalrupiah);
-        });
-       }
-   })
     $(".transactions-list").click(function() {
         var idnya = $(this).attr('id').split('-');
         var id = idnya[1];

@@ -46,7 +46,7 @@
     @yield('content')
     <div class="footer-wrapper">
         <div class="footer-section f-section-1">
-            <p class="">Copyright © 2021 <a target="_blank" href="#">Profil Bisnis</a>, All rights reserved.</p>
+            <p class="">Copyright © 2023 <a target="_blank" href="#">Profil Bisnis</a>, All rights reserved.</p>
         </div>
     </div>
 

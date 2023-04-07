@@ -27,7 +27,8 @@
     .activation-code>span {
         position: absolute;
         display: block;
-        font-size: 13px;
+        font-size: 50px !important;
+        font-weight:800;
         color: #ccc;
         top: 0;
         right: 0;
@@ -81,11 +82,8 @@
         opacity: 0.6;
     }
 </style>
-<div class="form-container">
-    <div class="form-form">
-        <div class="form-form-wrap">
-            <div class="form-container">
-                <div class="form-content">
+    <div class="row">
+        <div class="col-md-6">
 
                     <h1 class="">Penukaran Token</h1>
                     <p class="signup-link">Masukan 6 digit kode untuk melanjutkan pendaftaran profil bisnis</p>
@@ -111,9 +109,10 @@
                                 <input type="tel" name="token" maxlength="1" pattern="[0-9]" class="form-control">
 
                             </div> -->
-                            <input class="activation-code-input w-100 " name="token" placeholder="code">
+                            <input class="activation-code-input w-100 " name="token" style="font-size:40px !important;font-weight:800 !important;">
                             <!-- <input type="text" class="form-control" name="token"> -->
                         </div>
+                        <hr>
                         <div class="form-group mt-2 mb-5">
                             <label style="float: left;">Verifikasi</label>
                             {!! NoCaptcha::renderJs() !!}
@@ -121,17 +120,15 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Lanjut</button>
                     </form>
-
-
+        </div>
+        <div class="col-md-6">
+            <div class="form-image">
+                <div class="l-image">
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-image">
-        <div class="l-image">
-        </div>
-    </div>
-</div>
+ 
 
 
 @endsection
