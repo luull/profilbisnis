@@ -16,6 +16,7 @@
         <div class="card">
             <div class="card-body">
                 <a href class="btn btn-success mb-3" data-toggle="modal" data-target="#slideupModal">Beli Token</a>
+                @if(!empty($data))
                 <div class="table-responsive">
                     <table class="table table-strip">
                         <thead>
@@ -50,6 +51,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
             </div>
         </div>
         </div>

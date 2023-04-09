@@ -23,11 +23,15 @@ class tokenController extends Controller
         $data = Token::where('pembeli', session('admin_member_id'))
         ->orderBy('type', 'desc')
         ->get();
+        $check = Token::where([
+            ['pembeli', '=', session('admin_member_id')],['status', '=', 0]])
+        ->count();
+
         $status = Token::where('pembeli', session('admin_member_id'))->first();
         $dataterpakai = Token::where('status', '1')->count();
         $dataterbeli = Token::where('status', '0')->count();
         $member = Member::where('id_referal', $id)->skip(0)->take(4)->get();
-        return view('admin.token', compact('data', 'dataterpakai', 'dataterbeli', 'member', 'status'));
+        return view('admin.token', compact('data', 'dataterpakai', 'dataterbeli', 'member', 'status','check'));
     }
     public function create(Request $request)
     {
@@ -55,6 +59,8 @@ class tokenController extends Controller
             $hsl =  Bill_token::create([
                 'id_token' => substr(str_shuffle($karakter2), 0, 4),
                 'pembeli' => session('admin_member_id'),
+                'type' => $request->type,
+                'status' => 0,
                 'qty' => $request->jumlah,
                 'total' => $request->results,
                 'tgl_beli' => date('Y-m-d h:i:s'),
@@ -128,7 +134,7 @@ class tokenController extends Controller
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $file->getClientOriginalExtension();
             $name = $fileName . '.' . $extension;
-            $file->move(public_path() . '/member-assets' . session('admin_member_id') . '/images/', $name);
+            $file->move(public_path() . '/member-assets/' . session('admin_member_id') . '/images/', $name);
             $photo = "member-assets/". session('admin_member_id') . "/images/$name";
         }
         $hsl = Bill_token::find($request->id)->update([

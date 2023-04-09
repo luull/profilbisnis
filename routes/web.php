@@ -82,6 +82,9 @@ Route::group(['middleware' => 'backendMiddlware'], function () {
 });
 
 Route::group(['middleware' => 'backendMiddleware'], function () {
+    Route::get('/backend/token', 'backend\tokenController@index');
+    Route::get('/backend/find/token/{id}', 'backend\tokenController@find');
+    Route::get('/backend/generate/token/{id}', 'backend\tokenController@generate');
     Route::get('/backend/import', 'backend\memberController@import_member');
     Route::get('/backend/themes', 'backend\themesController@index');
     Route::get('/backend/themes/find/{id}', 'backend\themesController@find');

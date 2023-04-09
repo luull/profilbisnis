@@ -10,8 +10,8 @@
 </div>
 <div class="row layout-top-spacing" id="cancel-row">
     <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
-        @if (count($data)>=1)
         <div class="row">
+            @if ($check >= 1)
             <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing" style="height: 500px;max-height:500px;overflow:scroll;">
                 <a href="/admin/belitoken" class="btn btn-success mb-3" >Beli Token</a>
                 <div class="widget widget-table-one">
@@ -38,7 +38,7 @@
 
                     <div class="widget-content">
                         @foreach($data as $dt)
-                        @if($dt->status == 1)
+                        @if($dt->status == 0)
                         <div class="transactions-list" id="e-{{$dt->id}}">
                             <div class="t-item">
                                 <div class="t-company-name">
@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="t-rate rate-dec">
-                                    <p><span>Rp.{{$dt->total}}</span></p>
+                                    {{-- <p><span>Rp.{{$dt->total}}</span></p> --}}
 
                                     <div class="bills-stats">
                                         @if($dt->status == 0)
@@ -74,6 +74,23 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
+                <div class="row">
+                    <div class="col-md-6">
+        
+                        <div class="text-center">
+                            <img src="{{ asset('images/defaulttoken.png')}}" class="img-fluid" style="max-height: 400px;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="mt-5">Belum Punya member? Beli dongggg</h1>
+                        <a href="/admin/belitoken" class="btn btn-primary mt-4 mb-4 mr-2 btn-lg" >Beli Disini</a>
+        
+                    </div>
+                </div>
+            </div>
+            @endif
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-account-invoice-two" id="card">
                     <div class="widget-content">
@@ -129,7 +146,7 @@
         
                             <div class="widget-content">
                                 @foreach($data as $dt)
-                                @if($dt->status == 2)
+                                @if($dt->status == 1)
                                 <div class="transactions-list" style="cursor: none;pointer-events: none;">
                                     <div class="t-item">
                                         <div class="t-company-name">
@@ -172,21 +189,7 @@
             </div>
 
         </div>
-        @else
-        <div class="row">
-            <div class="col-md-6">
 
-                <div class="text-center">
-                    <img src="{{ asset('images/defaulttoken.png')}}" class="img-fluid" style="max-height: 400px;" />
-                </div>
-            </div>
-            <div class="col-md-6">
-                <h1 class="mt-5">Belum Punya member? Beli dongggg</h1>
-                <button class="btn btn-primary mt-4 mb-4 mr-2 btn-lg" data-toggle="modal" data-target="#slideupModal">Beli Disini</button>
-
-            </div>
-        </div>
-        @endif
     </div>
 </div>
 

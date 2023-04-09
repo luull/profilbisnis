@@ -19,6 +19,7 @@
           <li><a href="/backend/ubah_password" class="nav-link">Ubah Password</a></li>
           @if(session('akses')<=2) <li><a href="/backend/admin">Daftar User Admin</a>
       </li>
+      <li><a href="/backend/token">Token Management</a>
       <li><a href="/backend/admin">Daftar Template</a>
         <ul>
           <li><a href="/backend/themes">Web</a></li>
