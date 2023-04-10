@@ -4,7 +4,42 @@
 @section('content')
 <div class="container-fluid my-5">
     <div class="row justify-content-center">
-       
+       <div class="col-md-3 mb-3">
+        <div class="widget widget-account-invoice-two" id="card">
+            <div class="widget-content">
+                <div class="account-box">
+                    <div class="info">
+                        <div class="inv-title">
+                            <h5 class="">Token</h5>
+                        </div>
+                        <div class="inv-balance-info">
+
+                            <p class="inv-balance" id="get_token">{{session('token_data')->token}}</p>
+                            @if(session('token_data')->type == 0)
+                            <span class="inv-stats balance-credited" id="get_type">{{session('token_data')->type  == 0 ? 'MEMBER' : 'SUPER MEMBER'}}</span>
+                            <span class="inv-stats balance-credited"><i class="fa fa-user"></i></span>
+                            @else
+                            <span class="inv-stats balance-credited" style="background:#b78b09;color:#fff !important;" id="get_type_super">{{session('token_data')->type  == 0 ? 'MEMBER' : 'SUPER MEMBER'}}</span>
+                            <span class="inv-stats balance-credited" style="background:#b78b09;color:#fff !important;"><i class="fa fa-user"></i></span>
+                            @endif
+
+                        </div>
+                    </div>
+                    @if(!empty($pembeli))
+                    <div class="acc-action">
+                        <div class="">
+                            <i data-feather="plus"></i>
+                            <a href style="text-transform:uppercase"><i class="fa fa-user-check mr-1"></i> REFERENSI {{$pembeli->username}} </a>
+                            {{-- <a href="javascript:void(0);"><i class="far fa-copy"></i></a>
+                            <a href="javascript:void(0);"><i class="fa fa-share"></i></a>
+                           --}}
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+       </div>
         <div class="col-md-7">
             <div class="card">
                     
@@ -25,6 +60,13 @@
                             </div>
                             <div class="row mt-5">
                                 <div class="col-md-12">
+                                    @if(!empty($pembeli))
+                                    <div class="form-group">
+                                        <label>Referensi dari :</label>
+                                        <input type="text" class="form-control basic" value="{{$pembeli->username}}" style="text-transform: capitalize" readonly>
+                                       
+                                    </div>
+                                    @endif
                                     <div class="form-group">
                                         <label>Nama Lengkap <span class="text-danger">*</span></label>
                                         <input type="text" maxlength="25" placeholder="Udin sasono" class="form-control basic" name="nama" id="defaultconfig">

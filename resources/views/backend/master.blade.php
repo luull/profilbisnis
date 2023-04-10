@@ -10,7 +10,7 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('templates/admin/assets/css/style.css')}}">
   <link rel="stylesheet" href="{{ asset('templates/admin/assets/css/components.css')}}">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css" integrity="sha512-p++g4gkFY8DBqLItjIfuKJPFvTPqcg2FzOns2BNaltwoCOrXMqRIOqgWqWEvuqsj/3aVdgoEo2Y7X6SomTfUPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="{{ asset('templates/admin/assets/css/custom.css')}}">
   <link rel="icon" href="{{ asset('favicon.png')}}" type="image/x-generic">

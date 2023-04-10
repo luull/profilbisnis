@@ -29,6 +29,7 @@
     <link href="{{ asset('templates/new-admin/assets/css/authentication/form-1.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('templates/new-admin/assets/css/forms/theme-checkbox-radio.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('templates/new-admin/assets/css/forms/switches.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('templates/new-admin/assets/css/style.css')}}">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     @yield('style')
     @yield('script_atas')

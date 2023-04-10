@@ -10,6 +10,8 @@ use App\Province;
 use App\Subdistrict;
 use App\SubKategoriPekerjaan;
 use App\Token;
+use App\Bill_token;
+use App\Bank;
 use App\Wa_template;
 use App\Wa_template_Default;
 use Illuminate\Http\Request;
@@ -70,6 +72,7 @@ class registerController extends Controller
         } else {
             $token = session('token_data');
             $id = session('token_data')->id;
+            $pembeli = Member::where('id', session('token_data')->pembeli)->first();
             $province = Province::all();
             $city = City::all();
             $subdistrict = Subdistrict::all();
@@ -80,7 +83,8 @@ class registerController extends Controller
                 'kategori_pekerjaan',
                 'city',
                 'subdistrict',
-                'sub_kategori_pekerjaan'
+                'sub_kategori_pekerjaan',
+                'pembeli'
             );
             return view('register.sign_up', compact($compact));
         }
@@ -172,6 +176,45 @@ class registerController extends Controller
             }
         } else {
             return redirect()->back()->with(['message' => 'Data belum lengkap', 'alert' => 'danger']);
+        }
+    }
+    public function option()
+    {
+        $getbank = Bank::all();
+        return view('register.option', compact('getbank'));
+    }
+    public function register_common(Request $request){
+        if (substr($request->phone, 0, 2) != '62') {
+            $wa = "62" . substr($request->phone, 1);
+        } else {
+            $wa = $request->phone;
+        }
+        $karakter2 = 'ABCDEFGHIJKLMNOP0123456789';
+        $bukti = '';
+        if ($request->hasfile('bukti')) {
+            $file = $request->file('bukti');
+            $originName = $file->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $name = $fileName . '.' . $extension;
+            $file->move(public_path() . '/strangers/', $name);
+            $bukti = "strangers/$name";
+        }
+        $hsl =  Bill_token::create([
+            'id_token' => substr(str_shuffle($karakter2), 0, 4),
+            'pembeli' => $request->pembeli,
+            'type' => $request->type,
+            'phone' => $wa,
+            'status' => 0,
+            'qty' => 1,
+            'bukti' => $bukti,
+            'total' => $request->total,
+            'tgl_beli' => date('Y-m-d h:i:s'),
+        ]);
+        if ($hsl) {
+            return redirect()->back()->with(['message' => 'Pendaftaran Berhasil, Mohon menunggu Validasi Admin, Link akan dikirim via Whatsapp', 'alert' => 'success']);
+        } else {
+            return redirect()->back()->with(['message' => 'Pembelian Gagal, silahkan coba kembali', 'alert' => 'danger']);
         }
     }
 }

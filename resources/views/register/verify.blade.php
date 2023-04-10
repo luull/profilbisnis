@@ -82,8 +82,12 @@
         opacity: 0.6;
     }
 </style>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-0" style="   background-color: #f4f4f4;">
+            <img src="{{asset('images/login.png')}}" class="img-fluid" alt="">
+        </div>
+        <div class="col-md-6 verify-col">
 
                     <h1 class="">Penukaran Token</h1>
                     <p class="signup-link">Masukan 6 digit kode untuk melanjutkan pendaftaran profil bisnis</p>
@@ -93,7 +97,7 @@
                     </div>
                     @endif
                     @if (session('message'))
-                    <div class="alert alert-danger mt-3">
+                    <div class="alert alert-{{session('alert')}} mt-3">
                         {{ session('message') }}
                     </div>
                     @endif
@@ -121,13 +125,14 @@
                         <button type="submit" class="btn btn-primary">Lanjut</button>
                     </form>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-image">
                 <div class="l-image">
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
+</div>
  
 
 

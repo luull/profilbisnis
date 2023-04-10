@@ -18,6 +18,8 @@ Route::get('/register/verify', 'registerController@index');
 Route::post('/register/verify/login', 'registerController@login')->name('verify_login');
 Route::get('/register', 'registerController@register');
 Route::post('/register/create', 'registerController@create')->name('create_member');
+Route::get('/register/option', 'registerController@option');
+Route::post('/register/common', 'registerController@register_common')->name('send-regis');
 Route::get('/c-panel', 'loginController@index')->name('login');
 Route::get('/backend', 'loginController@backend')->name('backend');
 Route::get('/login', 'loginController@index')->name('login');
@@ -85,6 +87,7 @@ Route::group(['middleware' => 'backendMiddleware'], function () {
     Route::get('/backend/token', 'backend\tokenController@index');
     Route::get('/backend/find/token/{id}', 'backend\tokenController@find');
     Route::get('/backend/generate/token/{id}', 'backend\tokenController@generate');
+    Route::get('/backend/sendwa/token/{id}', 'backend\tokenController@sendwa');
     Route::get('/backend/import', 'backend\memberController@import_member');
     Route::get('/backend/themes', 'backend\themesController@index');
     Route::get('/backend/themes/find/{id}', 'backend\themesController@find');

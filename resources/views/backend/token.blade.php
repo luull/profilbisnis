@@ -79,13 +79,18 @@
                                 <td><span class="badge badge-warning">Pending</span></td>
                                 @else
                                 <td><span class="badge badge-success">Berhasil</span></td>
-
                                 @endif
                                 <td>{{ date('d-m-Y', strtotime($dt->tgl_beli)) }}</td>
                                 <td> 
                                     @if(!empty($dt->bukti))
-                                    <a href="#" class="edit btn btn-primary" id="e-{{$dt->id}}" alt="Edit"><i class="fa fa-lg fa-edit" alt="edit"></i> Bukti</a>
-                                    <a href="/backend/generate/token/{{$dt->id}}" class="btn btn-warning"><i class="fa fa-refresh"></i> Generate Token</a>
+                                    <a href="#" class="edit btn btn-light" id="e-{{$dt->id}}" alt="Edit"><i class="fa fa-file-invoice" alt="edit"></i> Bukti</a>
+                                        @if($dt->status == 0)
+                                        <a href="/backend/generate/token/{{$dt->id}}" class="btn btn-dark ml-2"><i class="fa fa-credit-card"></i> Generate Token</a>
+                                        @else
+                                            @if(!empty($dt->phone))
+                                                <a href="/backend/sendwa/token/{{$dt->id_token}}" target="_blank" class="btn btn-success ml-2"> <i class="fa fa-whatsapp"></i> Kirim token</a>
+                                            @endif
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

@@ -114,6 +114,7 @@ class tokenController extends Controller
         );
         save_event_log_member($a_data);
         $data = Bill_token::where('pembeli', session('admin_member_id'))
+        ->orderBy('status', 'asc')
         ->get();
         return view('admin.beli_token', compact('data'));
     }

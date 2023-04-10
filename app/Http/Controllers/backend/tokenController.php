@@ -16,7 +16,7 @@ class tokenController extends Controller
         if (empty(session('backend_user_id'))) {
             return redirect(env('APP_URL') . '/backend');
         }
-        $data = Bill_token::all();
+        $data = Bill_token::orderBy('tgl_beli', 'desc')->get();
         return view('backend.token', compact('data'));
     }
     public function find(Request $req)
@@ -33,7 +33,7 @@ class tokenController extends Controller
         if (empty(session('backend_user_id'))) {
             return redirect(env('APP_URL') . '/backend');
         }
-        $get = Bill_token::find($request->id)->first();
+        $get = Bill_token::where('id',$request->id)->first();
         // $pembeli = Member::where('id', $get->pembeli)->first();
         $karakter = '123456789';
         for ($i = 1; $i <= $get->qty; $i++) {
@@ -55,5 +55,19 @@ class tokenController extends Controller
         } else {
             return redirect()->back()->with(['message' => 'Generate Token Gagal, silahkan coba kembali', 'alert' => 'danger']);
         }
+    }
+    public function sendwa(Request $req){
+        if (empty(session('backend_user_id'))) {
+            return redirect(env('APP_URL') . '/backend');
+        }
+        $getbill = Bill_token::where('id_token', $req->id)->first();
+        $gettoken = Token::where('id_beli', $req->id)->first();
+        $link = env('APP_URL').'/register';
+        if($getbill){
+            return redirect('https://api.whatsapp.com/send?phone='.$getbill->phone.'&text=Selamat *'.$getbill->pembeli.'*%0ARegistrasi anda Berhasil%0AJangan berikan Token ini ke siapapun%0A*'.$gettoken->token.'*%0AGunakan Token ini untuk Registrasi Member Profil Bisnis%0A'.$link);
+        }else{
+            return redirect()->back()->with(['message' => 'Send Token Gagal, silahkan coba kembali', 'alert' => 'danger']);
+        }
+
     }
 }

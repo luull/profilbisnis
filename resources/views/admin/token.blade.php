@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                                 <div class="t-rate rate-dec">
-                                    {{-- <p><span>Rp.{{$dt->total}}</span></p> --}}
+                                    <p><span>{{$dt->token}}</span></p>
 
                                     <div class="bills-stats">
                                         @if($dt->status == 0)

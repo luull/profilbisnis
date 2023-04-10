@@ -28,25 +28,35 @@
                                 <th>Tagihan</th>
                                 <th>Status</th>
                                 <th>Tgl beli</th>
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1 ?>
                             @foreach($data as $dt)
-                            @if($dt->status == 0)
+
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>{{$dt->id_token}}</td>
                                 <td>{{$dt->type == 0 ? 'Member' : 'Supermember' }}</td>
                                 <td>{{$dt->qty}}</td>
                                 <td>{{"Rp ".number_format($dt->total)}}</td>
+                                @if($dt->status == 0)
                                 <td><span class="badge badge-warning">Pending</span></td>
+                                @else
+                                <td><span class="badge badge-success">Berhasil</span></td>
+
+                                @endif
                                 <td>{{ date('d-m-Y', strtotime($dt->tgl_beli)) }}</td>
-                                <td> <a href="#" class="edit" id="e-{{$dt->id}}" alt="Edit"><i class="fa fa-lg fa-edit text-info" alt="edit"></i></a>
+                                <td> 
+                                @if(!empty($dt->bukti))
+                                <button class="edit btn btn-default btn-disable" disabled><i class="fa fa-check-circle mr-2 text-success"></i>Bukti berhasil Dikirim</button>
+                                @else
+                                <a href="#" class="edit btn btn-warning" id="e-{{$dt->id}}" alt="Edit"><i class="fa fa-file-invoice" alt="edit"></i> Kirim bukti pembayaran</a>
+                                @endif
                                 </td>
                             </tr>
-                            @endif
+                      
                             @endforeach
                         </tbody>
                     </table>
