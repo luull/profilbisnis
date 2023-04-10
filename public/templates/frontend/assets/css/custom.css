@@ -7,6 +7,7 @@ a{
     text-decoration: none;
 }
     .single_advisor_profile {
+        overflow: hidden;
         position: relative;
         margin-bottom: 50px;
         -webkit-transition-duration: 500ms;
@@ -162,4 +163,24 @@ a{
     .single_advisor_profile .single_advisor_details_info p i {
         float: left;
         font-size: 20px;
+    }
+
+
+
+    .tag {
+        background-color: #e0b722;
+        position: absolute;
+        z-index: 999999999;
+        width: 150px;
+        height: 60px;
+        top: -10px;
+        line-height: 2.6;
+        left:0;
+        margin-left: -50px;
+        transform: rotate(-42deg);
+    }
+    .tag p {
+        font-size: 26px;
+        color:#ffed68;
+        transform: rotate(-32deg);
     }

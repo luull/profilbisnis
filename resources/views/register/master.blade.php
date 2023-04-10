@@ -36,7 +36,7 @@
 
 </head>
 
-<body>
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()" style="background: #f4f4f4">
     <div id="load_screen">
         <div class="loader">
             <div class="loader-content">

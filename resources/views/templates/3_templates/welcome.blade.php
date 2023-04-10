@@ -155,7 +155,7 @@
                     <br>
                     <div class="row gy-5">
                       <div class="col-4">
-                          <a href="{{session('konfigurasi')->url_join}}-{{session('no_member')}}.html" style="width: 100%;height:45px;" target="_blank" class="btn btn-outline-main">Daftar</a>
+                          <a href="/register/option" style="width: 100%;height:45px;" target="_blank" class="btn btn-outline-main">Daftar</a>
                       </div>
                       <div class="col-7">
                           @if (session('level'))

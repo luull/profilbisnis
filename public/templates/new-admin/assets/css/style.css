@@ -6,12 +6,13 @@
 }
 .verify-col {
     padding:30px;
-    margin-top:150px;
+    padding-top:150px;
+    background-color: #fff;
 }
 
 @media only screen and (max-width: 600px) {
     .verify-col {
-        margin-top:0px;
+        padding-top:10px;
         margin-bottom: 50px;
     }
   }

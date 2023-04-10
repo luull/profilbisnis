@@ -16,7 +16,7 @@ class tokenController extends Controller
         if (empty(session('backend_user_id'))) {
             return redirect(env('APP_URL') . '/backend');
         }
-        $data = Bill_token::orderBy('tgl_beli', 'desc')->get();
+        $data = Bill_token::orderBy('status', 'asc')->get();
         return view('backend.token', compact('data'));
     }
     public function find(Request $req)

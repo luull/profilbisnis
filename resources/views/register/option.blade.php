@@ -2,18 +2,18 @@
 
 
 @section('content')
-<div class="container-fluid my-5">
+<div class="container-fluid my-5" style="background:#f4f4f4">
     @if (session('message'))
     <div class="alert alert-{{session('alert')}} mt-3">
         {{ session('message') }}
     </div>
     @endif
    <div id="option">
-    <h2 class="text-center my-5">DAFTAR MELALUI</h2>
+    <h2 class="text-center my-5" style="font-weight: 800">DAFTAR MELALUI</h2>
     <div class="row justify-content-center">
         <div class="col-md-4">
             <a href="/register/verify">
-            <div class="card">
+            <div class="card" style="cursor: pointer">
                 <div class="card-body">
                  <div class="text-center">
                     <img src="{{asset('images/token.svg')}}" style="height: 200px" alt="">
@@ -26,7 +26,7 @@
         </div>
        <div class="col-md-4" id="without">
         
-            <div class="card">
+            <div class="card" style="cursor: pointer">
                 <div class="card-body">
                  <div class="text-center">
                     <img src="{{asset('images/without-token.svg')}}" style="height: 200px" alt="">

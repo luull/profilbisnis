@@ -62,8 +62,11 @@ Profil Member
         @foreach ($member_spesial as $item)
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <div class="tag">
+                    <p class="text-center"><i class="fas fa-star"></i></p>
+                </div>
                 <div class="advisor_thumb" ><a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><img src="{{asset($item->foto)}}" alt="" style="min-height:280px;max-height:320px;background-size:cover"></a>
-                    <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa fa-youtube"></i></a></div>
+                    <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa-brands fa-facebook-f"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa-brands fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa-brands fa-youtube"></i></a></div>
                 </div>
                 <div class="single_advisor_details_info mb-5" style="padding-left:15px">
                     <p style="float: left !important;" class="mx-1">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>
@@ -86,7 +89,7 @@ Profil Member
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                 <div class="advisor_thumb"><a href="{{env('APP_URL')}}/{{$item->username}}" target="_blank"><img src="{{asset($item->foto)}}" alt="" style="min-height:280px;max-height:320px;background-size:cover"></a>
-                    <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa fa-facebook"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa fa-youtube"></i></a></div>
+                    <div class="social-info"><a href="https://facebook.com/{{$item->fb}}" target="_blank"><i class="fa-brands fa-facebook-f"></i></a><a href="https://twitter.com/{{$item->twitter}};" target="_blank"><i class="fa-brands fa-twitter"></i></a><a href="https://instagram.com/{{$item->ig}}" target="_blank"><i class="fa-brands fa-instagram"></i></a><a href="https://youtube.com/{{$item->tube}};" target="_blank"><i class="fa-brands fa-youtube"></i></a></div>
                 </div>
                 <div class="single_advisor_details_info mb-5" style="padding-left:15px">
                     <p style="float: left !important;" class="mx-1">{!! QrCode::size(60)->generate(env('APP_URL').'/'.$item->username); !!}</p>

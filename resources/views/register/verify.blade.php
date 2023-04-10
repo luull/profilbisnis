@@ -82,9 +82,9 @@
         opacity: 0.6;
     }
 </style>
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="row">
-        <div class="col-md-6 mb-0" style="   background-color: #f4f4f4;">
+        <div class="col-md-6 mb-0" style="background-color: #f4f4f4;">
             <img src="{{asset('images/login.png')}}" class="img-fluid" alt="">
         </div>
         <div class="col-md-6 verify-col">
