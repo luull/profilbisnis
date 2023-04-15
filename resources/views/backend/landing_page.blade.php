@@ -68,7 +68,7 @@ code {
                     <td>
                         <a href="#" class="edit " id="e-{{$data->id}}" alt="Edit"><i class="fa fa-lg fa-edit text-info" alt="edit"></i></a>
                         <a href="/backend/landing/delete/{{$data->id}}"  id="e-{{$data->id}}" alt="Delete"><i class="fa fa-lg fa-trash text-danger"></i></a> 
-                        <a href="/landing/{{$data->titlelanding}}" alt="Show" target="_Blank"><i class="fa fa-lg fa-eye text-dark"></i></a>
+                        <a href="/landing/{{$data->id_member}}/{{$data->titlelanding}}" alt="Show" target="_Blank"><i class="fa fa-lg fa-eye text-dark"></i></a>
                 </tr>
                 @endforeach
                 </tbody>

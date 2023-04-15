@@ -29,6 +29,7 @@
     } */
     .border {
         margin-top: -50px;
+        wid
         padding: 10px;
     }
 
@@ -39,28 +40,13 @@
     .preview {
         position: relative;
         width: 100%;
-        height: 320px;
+        height: 200px;
         overflow: hidden;
     }
 
     .preview .previewimg {
         width: 100%;
         height: auto;
-        transform: translateY(0px);
-        -webkit-transition: top 8s;
-        -moz-transition: top 8s;
-        -ms-transition: top 8s;
-        -o-transition: top 8s;
-        transition: bottom 8s;
-    }
-
-    .preview:hover .previewimg {
-        transform: translateY(calc(-100% + 300px));
-        -webkit-transition: all 8s;
-        -moz-transition: all 8s;
-        -ms-transition: all 8s;
-        -o-transition: all 8s;
-        transition: all 8s;
     }
 </style>
 @endsection
@@ -93,7 +79,7 @@
                                 @foreach ($themes as $theme)
                                 @if ($theme->id==$profil->themes_id)
 
-                                <div class="col-md-6 mb-5">
+                                <div class="col-md-4 mb-5">
                                     <input type="radio" name="themes" id="{{$theme->id}}" value="{{$theme->id}}" checked>
                                     <div class="border">
                                         <div class="preview">
@@ -102,7 +88,7 @@
                                     </div>
                                 </div>
                                 @else
-                                <div class="col-md-6 mb-5">
+                                <div class="col-md-4 mb-5">
                                     <input type="radio" name="themes" id="{{$theme->id}}" value="{{$theme->id}}">
                                     <div class="border">
                                         <div class="preview">

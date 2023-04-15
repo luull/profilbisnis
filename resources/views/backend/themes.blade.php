@@ -24,6 +24,7 @@
                               <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Foto</th>
                                         <th>Nama Template</th>
                                         <th>Direktori Template</th>
                                         <th width="150">Action</th>
@@ -34,6 +35,7 @@
                                     @foreach ($backend_themes as $dt)
                                     <tr>
                                         <td>{{ $dt->id }}</td>
+                                        <td><img src="{{ asset($dt->picture) }}" style="height: 100px" alt=""></td>
                                         <td>{{ $dt->name }}</td>
                                         <td>{{ $dt->template }}</td>
                                         <td > <a href="#" class="edit" id="e-{{$dt->id}}" onclick="edit({{$dt->id}})" alt="Edit"><i class="fa fa-lg fa-edit text-info" alt="edit"></i></a>
@@ -79,6 +81,19 @@
                                     <div class="card ">
                                         <div class="card-body  p-3">
                                             <div class="basic-form">
+                                                <div class="row">
+                           
+                                                 <div class="col-12 ">
+                                                    <div class="form-group">
+                                                        <label>Foto Template</label>
+                                                        <input type="file" class="form-control input-default @error('picture')is-invalid @enderror" name="picture" id="background">
+                                                        @error('picture')
+                                                        <div class="text-danger mt-1 font-italic">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    
+                                                </div>  
+                                            </div>
                                                 <div class="row">
                            
                                                  <div class="col-12 ">
@@ -141,7 +156,13 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="basic-form">
-                                                
+                                                <div class="form-group">
+                                                    <label>Foto Template</label>
+                                                    <br><img src="" class="img img-thumbnail" id="edit_picture" style="height:100px">
+                                                    <br><input type="hidden" class="form-control input-default" id="default" name="default">
+                                               
+                                                    <input type="file" class="form-control input-default" name="picture">
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Template</label>
                                                     <input type="text" class="form-control input-default @error('edit_name')is-invalid @enderror" name="edit_name" id="edit_name" >
@@ -200,6 +221,7 @@
         $(".edit").click(function(){
             var idnya=$(this).attr('id').split('-');
             var id=idnya[1];
+            var urls="<?PHP echo env('APP_URL');?>";
             $.ajax({
                 type:'get',
                 method:'get',
@@ -211,7 +233,11 @@
                         $("#edit_id").val(hsl.hasil.id);
                         $("#edit_name").val(hsl.hasil.name);
                         $("#edit_template").val(hsl.hasil.template);
-                        
+                        if (hsl.hasil.picture!=''){
+                            $("#edit_picture").show();
+                            console.log($("#edit_picture").attr('src',urls+hsl.hasil.picture));
+                        }
+                        $("#default").val(hsl.hasil.picture);
                        $("#editmodal").modal();
                     }
                    
@@ -225,27 +251,6 @@
    
     })
 
-     function edit(id){
-            $.ajax({
-                type:'get',
-                method:'get',
-                url:'/backend/themes/find/'  + id ,
-                data:'_token = <?php echo csrf_token() ?>'   ,
-                success:function(hsl) {
-                    if(hsl.hasil.name!=null){
-
-                        $("#edit_id").val(hsl.hasil.id);
-                        $("#edit_name").val(hsl.hasil.name);
-                        $("#edit_template").val(hsl.hasil.template);
-                        
-                       $("#editmodal").modal();
-                    }
-                   
-                   
-                }
-            });
-            
-        }
     </script>    
 @stop
 

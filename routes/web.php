@@ -62,17 +62,25 @@ Route::get('/bisnis/produk/{id}', 'bisnisController@produkBisnis')->name('findpr
 Route::get('/bisnis1/produk/{id}', 'bisnisController@produkBisnis1')->name('findprodukbisnis1');
 Route::get('/produk/{member}/{id}', 'produkController@detilProduk');
 Route::get('/produk1/{member}/{id}', 'produkController@detilProduk1');
+Route::get('/display/{member}/{id}', 'displayController@index');
 Route::get('/kontak', 'kontakController@index');
 Route::get('/agenda', 'agendaController@index');
 Route::get('/agenda1', 'agendaController@index1');
 Route::get('/agenda/{id}', 'agendaController@agenda');
 Route::get('/agenda1/{id}', 'agendaController@agenda1');
-Route::get('/landing-page/{id}/{slug}', 'landingPageController@index');
+// Route::get('/landing-page/{id}/{slug}', 'landingPageController@index');
+Route::get('/shared/{member}/{id}/{slug}', 'landingPageController@shared');
+Route::post('/send', 'landingPageController@send')->name('send');
+Route::get('/landing/{id}/{slug}', 'landingPageController@index');
 
 Route::get('/testimoni/{slug}', 'testimoniController@index');
 Route::get('/testimoni1/{slug}', 'testimoniController@index1');
+Route::get('/displaytestimoni/{slug}', 'testimoniController@index');
+Route::get('/displaytestimoni1/{slug}', 'testimoniController@index1');
 Route::get('/testimoni/detil/{member}/{id}', 'testimoniController@detil');
 Route::get('/testimoni1/detil/{member}/{id}', 'testimoniController@detil1');
+Route::get('/displaytestimoni/detil/{member}/{id}', 'testimoniController@detil');
+Route::get('/displaytestimoni1/detil/{member}/{id}', 'testimoniController@detil1');
 
 Route::get('/registrasi', function () {
     return view('templates.basic.register');
@@ -213,6 +221,18 @@ Route::group(['middleware' => 'backendMiddleware'], function () {
     Route::get('/backend/content', function () {
         return view('backend.content');
     });
+    Route::post('/backend/templatesBanner/save', 'backend\templatesBannerController@create')->name('save_templatesBanner_backend');
+    Route::post('/backend/templatesBanner/update', 'backend\templatesBannerController@update')->name('update_templatesBanner_backend');
+    Route::get('/backend/templatesBanner/delete/{id}', 'backend\templatesBannerController@delete')->name('delete_templatesBanner_backend');
+    Route::get('/backend/templatesBanner/find/{id}', 'backend\templatesBannerController@find');
+    Route::get('/backend/templatesBanner', 'backend\templatesBannerController@index');
+    Route::get('/backend/banner/preview/{id}', 'backend\templatesBannerController@preview');
+
+    Route::get('/backend/landing', 'backend\landingController@index');
+    Route::post('/backend/landing/save', 'backend\landingController@create')->name('create_landing_backend');
+    Route::post('/backend/landing/update', 'backend\landingController@update')->name('update_landing_backend');
+    Route::get('/backend/landing/delete/{id}', 'backend\landingController@delete')->name('delete_landing_backend');
+    Route::get('/backend/landing/find/{id}', 'backend\landingController@find');
 });
 
 Route::group(['middleware' => 'loginMiddleware'], function () {
@@ -253,6 +273,11 @@ Route::group(['middleware' => 'loginMiddleware'], function () {
     Route::get('/admin/produk/delete/{id}', 'admin\produkController@delete')->name('delete_produk');
     Route::get('/admin/produk/find/{id}', 'admin\produkController@find');
     Route::get('/admin/produk', 'admin\produkController@index');
+    Route::post('/backend/bank_content/save', 'backend\bankContentController@create')->name('save_bank_content_backend');
+    Route::post('/backend/bank_content/update', 'backend\bankContentController@update')->name('update_bank_content_backend');
+    Route::get('/backend/bank_content/delete/{id}', 'backend\bankContentController@delete')->name('delete_bank_content_backend');
+    Route::get('/backend/bank_content/find/{id}', 'backend\bankContentController@find');
+    Route::get('/backend/bank_content', 'backend\bankContentController@index');
     Route::get('/admin/display/delete/{id}', 'admin\displayController@delete')->name('delete_produk');
     Route::post('/admin/photo/save', 'admin\photoController@create')->name('save_photo');
     Route::post('/admin/photo/update', 'admin\photoController@update')->name('update_photo');
@@ -294,6 +319,9 @@ Route::group(['middleware' => 'loginMiddleware'], function () {
     Route::get('/admin/file_browse', 'admin\filemanagerController@file_browse');
     Route::get('/admin/bisnis', 'admin\bisnisController@index');
     Route::get('/dashboard', 'loginController@dashboard')->name('dashboard');
+    Route::get('/admin/bank_content', 'admin\bankContentController@index')->name('findcontent');
+    Route::get('/admin/bank_content/{id}', 'admin\bankContentController@display');
+
     Route::get('/admin/content', function () {
         return view('admin.content');
     });

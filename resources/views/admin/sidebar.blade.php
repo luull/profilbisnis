@@ -44,6 +44,23 @@
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </li>
+      <li class="menu menu-single {{ Request::is('/admin/bank_content') ? 'active' : '' }}">
+        <a href="/admin/bank_content" data-active="{{ Request::is('/admin/bank_content') ? 'true' : 'false' }}" class="menu-toggle">
+          <div class="base-menu">
+            <div class="base-icons">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layout">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <span>Bank <br> Content</span>
+          </div>
+        </a>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </li>
       <li class="menu menu-single {{ Request::is('admin/token') ? 'active' : '' }}">
         <a href="/admin/token" data-active="{{ Request::is('admin/token') ? 'true' : 'false' }}" class="menu-toggle">
           <div class="base-menu">

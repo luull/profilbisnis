@@ -36,11 +36,20 @@ class themesController extends Controller
             'name' => 'required',
             'template' => 'required',
         ]);
-
+        if ($request->hasfile('picture')) {
+            $file = $request->file('picture');
+            $originName = $file->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $name = $fileName . '.' . $extension;
+            $file->move(public_path() . '/screenshot/', $name);
+            $photo = "/screenshot/$name";
+        }
         if ($validasi) {
 
             $hsl = Themes::create([
                 'name' => $req->name,
+                'picture' => $photo,
                 'template' => $req->template,
                 'user_id' => session('backend_user_id')
             ]);
@@ -65,11 +74,23 @@ class themesController extends Controller
                 'edit_name' => 'required',
                 'edit_template' => 'required',
             ]);
-
+            if ($request->hasfile('picture')) {
+                $file = $request->file('picture');
+                $originName = $file->getClientOriginalName();
+                $fileName = pathinfo($originName, PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+                $name = $fileName . '.' . $extension;
+                $file->move(public_path() . '/screenshot/', $name);
+                $photo = "/screenshot/$name";
+            }
+            else {
+                $photo = $request->default;
+            }
             if ($validasi) {
 
                 $hsl = Themes::where('id', $req->id)->update([
                     'name' => $req->edit_name,
+                    'picture' => $photo,
                     'template' => $req->edit_template,
                     'user_id' => session('backend_user_id'),
                 ]);

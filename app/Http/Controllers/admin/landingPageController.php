@@ -40,7 +40,7 @@ class landingPageController extends Controller
                 $fileName = pathinfo($originName, PATHINFO_FILENAME);
                 $extension = $file->getClientOriginalExtension();
                 $name = $fileName . '.' . $extension;
-                $file->move(public_path() . '/' . session('admin_member_id') . '/images/', $name);
+                $file->move(public_path() . '/' . session('member_id') . '/images/', $name);
                 $bg1 = "/" . session('admin_member_id') . "/images/$name";
             }
             $bg2 = "";
@@ -120,7 +120,7 @@ class landingPageController extends Controller
                 'hits' => 0,
             ]);
             if ($hsl) {
-                $des = "Input Landing Page, ID Member " . session('admin_member_id') . " nama landing Page " . $req->nama;
+                $des = "Input Landing Page, ID Member " . session('member_id') . " nama landing Page " . $req->nama;
                 $a_data = array(
                     session('admin_member_id'), request()->url(),
                     request()->headers->get('referer'),
